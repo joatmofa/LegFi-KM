@@ -1,0 +1,177 @@
+---
+title: "Connect LegFi KM with Your Business Tools"
+sidebarTitle: "Integrations"
+description: "Integrate LegFi KM with Slack, Microsoft Teams, SharePoint, Google Drive, and more to embed knowledge into your existing workflows."
+---
+
+LegFi KM integrates with the tools your team already uses, so that updates to your regulatory and legal knowledge base flow naturally into the channels and systems where work happens. Rather than requiring your team to check LegFi KM separately for every update, integrations push the right information to the right place at the right time. Configure all integrations from **Settings → Integrations**.
+
+## Slack
+
+Connect LegFi KM to your Slack workspace to receive real-time notifications when entries are published, updated, or submitted for review. Your compliance and legal teams stay informed without switching context.
+
+<Steps>
+  <Step title="Open the Slack Integration">
+    Navigate to **Settings → Integrations → Slack** and click **Connect to Slack**.
+  </Step>
+  <Step title="Authorize the LegFi KM Slack App">
+    You are redirected to Slack's OAuth authorization page. Select the Slack workspace you want to connect and click **Allow**. LegFi KM requests only the permissions it needs: posting messages to channels and reading channel names for routing.
+  </Step>
+  <Step title="Choose a Default Notification Channel">
+    Back in LegFi KM, select the Slack channel that should receive workspace-wide notifications — for example, `#knowledge-updates`. All events that are not routed to a topic-specific channel are posted here.
+  </Step>
+  <Step title="Configure Per-Topic Channels">
+    For more targeted routing, expand the **Topic Channel Routing** section. Map individual topics or topic branches to specific Slack channels. For example, route all entries under the **Regulatory → US** topic to `#compliance`, and all entries under the **Legal → Contracts** topic to `#legal`. Click **Add Routing Rule** for each mapping and then click **Save**.
+  </Step>
+</Steps>
+
+Notifications are sent for the following events by default: entry published, entry updated, review requested, and review completed. You can enable or disable individual event types from the **Notification Events** checklist in the Slack integration settings.
+
+<Tip>
+  Pin the LegFi KM Slack app in your `#compliance` and `#legal` channels so team members can quickly jump to the full entry directly from Slack notifications without hunting for the link.
+</Tip>
+
+## Microsoft Teams
+
+Connect LegFi KM to Microsoft Teams using an incoming webhook. This allows LegFi KM to post formatted cards to any Teams channel whenever key knowledge events occur.
+
+<Steps>
+  <Step title="Create an Incoming Webhook in Teams">
+    In Microsoft Teams, open the channel where you want LegFi KM notifications to appear. Click **⋯ → Connectors**, search for **Incoming Webhook**, and click **Configure**. Give the webhook a name (e.g., "LegFi KM") and optionally upload the LegFi KM logo as the webhook icon. Click **Create** and copy the webhook URL that Teams generates.
+  </Step>
+  <Step title="Enter the Webhook URL in LegFi KM">
+    Navigate to **Settings → Integrations → Microsoft Teams** and paste the webhook URL into the **Webhook URL** field.
+  </Step>
+  <Step title="Select Notification Events">
+    Choose which events should trigger a Teams notification — entry published, entry updated, review requested, review completed, or any combination. Click **Save**.
+  </Step>
+  <Step title="Send a Test Notification">
+    Click **Send Test Message** to post a sample notification to the connected Teams channel and confirm the integration is working correctly.
+  </Step>
+</Steps>
+
+<Info>
+  Microsoft Teams webhooks are channel-specific. If you want notifications in multiple channels, create a separate incoming webhook for each channel in Teams and add each URL as a separate integration entry in LegFi KM.
+</Info>
+
+## SharePoint and Google Drive
+
+Link your organization's document storage repositories to LegFi KM so that knowledge entry authors can reference external files directly from within entry bodies — without leaving LegFi KM to locate and copy document links manually.
+
+Navigate to **Settings → Integrations → Document Storage** to connect your repositories.
+
+<Tabs>
+  <Tab title="SharePoint">
+    <Steps>
+      <Step title="Connect Your SharePoint Site">
+        Click **Add SharePoint Site** and sign in with a Microsoft 365 account that has read access to the SharePoint sites you want to make available. You can connect multiple sites. LegFi KM requests read-only permissions — it never modifies your SharePoint content.
+      </Step>
+      <Step title="Select Libraries to Expose">
+        After authentication, choose which document libraries within each site should be browsable from LegFi KM. You may want to limit this to libraries containing compliance policies, legal templates, or regulatory filings rather than exposing your entire intranet.
+      </Step>
+      <Step title="Save and Test">
+        Click **Save**. Open any entry in edit mode and use the **Insert Link → Document Storage** option in the editor toolbar to confirm that your SharePoint libraries appear and files are browsable.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Google Drive">
+    <Steps>
+      <Step title="Connect Your Google Workspace">
+        Click **Add Google Drive** and sign in with a Google Workspace account. Authorize LegFi KM to view files and folders in Google Drive. As with SharePoint, LegFi KM requests read-only access.
+      </Step>
+      <Step title="Configure Shared Drive Access">
+        If your organization uses Shared Drives (formerly Team Drives), select which Shared Drives should be accessible from LegFi KM. Personal My Drive folders are not exposed to other workspace members.
+      </Step>
+      <Step title="Save and Test">
+        Click **Save**. Open any entry in edit mode, use the **Insert Link → Document Storage** option, and verify that your Google Drive folders are browsable.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+When a user links a file from SharePoint or Google Drive into a LegFi KM entry, the link is stored as a reference — the file itself is not copied into LegFi KM. Users who click the link are taken to the file in its original location, subject to their own SharePoint or Google Drive permissions.
+
+## Webhooks
+
+Webhooks let you push LegFi KM events to any external system in real time — your compliance management platform, intranet, case management system, or a custom automation pipeline. LegFi KM sends an HTTP POST request to your configured URL each time a selected event occurs.
+
+<Steps>
+  <Step title="Create a New Webhook">
+    Navigate to **Settings → Integrations → Webhooks** and click **New Webhook**.
+  </Step>
+  <Step title="Enter the Endpoint URL">
+    Paste the URL of the endpoint that should receive the webhook payload. The endpoint must be publicly accessible over HTTPS. HTTP endpoints are not supported.
+  </Step>
+  <Step title="Select Trigger Events">
+    Check the events you want this webhook to fire for:
+
+    - **`entry.published`** — a new entry is published to the knowledge base
+    - **`entry.updated`** — a published entry is edited and re-published
+    - **`review.requested`** — a contributor submits an entry for review
+    - **`review.completed`** — a reviewer approves or rejects an entry
+
+    You can create multiple webhooks targeting different endpoints, each with a different subset of events.
+  </Step>
+  <Step title="Choose the Payload Format">
+    Select **JSON** as the payload format. LegFi KM sends a `Content-Type: application/json` header with every request.
+  </Step>
+  <Step title="Add a Secret (Recommended)">
+    Enter a **Webhook Secret** — a string of your choice. LegFi KM uses this secret to compute an HMAC-SHA256 signature of the payload, which is included in the `X-LegFiKM-Signature` request header. Verify this signature on your receiving server to confirm that requests originate from LegFi KM and have not been tampered with.
+  </Step>
+  <Step title="Save and Test">
+    Click **Save**. Then click **Send Test Payload** to send a sample `entry.published` event to your endpoint and verify that your server receives and processes it correctly. The test payload contains the same structure as a real event with clearly labeled test data.
+  </Step>
+</Steps>
+
+### Webhook Payload Structure
+
+Every webhook request LegFi KM sends includes a top-level event identifier, an ISO 8601 timestamp, your workspace ID, and a data object specific to the event type. Below is a representative payload for an `entry.published` event:
+
+```json
+{
+  "event": "entry.published",
+  "timestamp": "2024-03-15T14:22:00Z",
+  "workspace_id": "ws_abc123",
+  "entry": {
+    "id": "ent_xyz789",
+    "title": "SEC Regulation S-K: Disclosure Requirements",
+    "topic": "Regulatory > US > SEC",
+    "status": "published",
+    "author": "jane.doe@company.com",
+    "published_at": "2024-03-15T14:22:00Z",
+    "url": "https://app.legfikm.com/entries/ent_xyz789"
+  }
+}
+```
+
+The `entry.url` field in every payload provides a direct deep link to the entry in LegFi KM, making it straightforward for downstream systems to display a clickable reference to the full content.
+
+<Tip>
+  Use webhooks to automatically sync newly published regulatory entries to your team's compliance management system or intranet. Set up a webhook listening for `entry.published` filtered by your **Regulatory** topic branch, and have your receiving server create or update the corresponding record in your compliance platform — keeping both systems in step without any manual copy-paste.
+</Tip>
+
+**Webhook delivery and retries:** LegFi KM expects a `2xx` HTTP response from your endpoint within 10 seconds. If the response times out or returns a non-`2xx` status code, LegFi KM retries the delivery up to **5 times** with exponential backoff (10 s, 30 s, 2 min, 10 min, 30 min). If all retries fail, the event is marked as **Failed** in the webhook delivery log, accessible from **Settings → Integrations → Webhooks → [Webhook Name] → Delivery History**.
+
+## REST API
+
+For fully custom integrations — migrating content from a legacy system, building an internal portal that surfaces LegFi KM entries, or automating bulk operations — use the LegFi KM REST API directly.
+
+All API requests are made to the base URL:
+
+```
+https://api.legfikm.com/v1
+```
+
+Authenticate every request with your API token in the `Authorization` header:
+
+```http
+Authorization: Bearer <your_api_token>
+```
+
+Generate an API token from **Settings → Security → API Tokens → New Token**. Tokens are scoped to specific permissions (read entries, write entries, manage users, etc.) — grant only the scopes your integration requires.
+
+<Note>
+  API tokens are displayed only once at creation time. Copy and store your token securely immediately after generation — LegFi KM does not display the token value again. If you lose a token, revoke it and generate a new one.
+</Note>
+
+For the full endpoint reference, request and response schemas, rate limits, and code examples, see the [API Reference](/api/overview).

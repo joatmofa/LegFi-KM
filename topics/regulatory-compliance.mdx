@@ -1,0 +1,111 @@
+---
+title: "Managing Regulatory Compliance Content"
+sidebarTitle: "Regulatory Compliance"
+description: "Use LegFi KM to organize regulatory requirements, track compliance obligations, and maintain an audit-ready knowledge base."
+---
+
+Regulatory compliance content — SEC rules, FINRA guidelines, GDPR requirements, AML policies — is the most critical and most frequently updated category of knowledge your organization manages. A missed update or an outdated policy entry can carry serious legal and financial consequences. LegFi KM gives compliance officers and legal teams a structured, auditable environment to capture obligations, assign ownership, enforce review cycles, and demonstrate compliance readiness to auditors at any time.
+
+## Structuring Regulatory Content
+
+A consistent topic hierarchy is the foundation of a navigable compliance knowledge base. LegFi KM recommends a three-level structure for regulatory content:
+
+```
+Regulatory > [Jurisdiction] > [Agency or Framework]
+```
+
+This structure lets you filter and report on obligations by geography or framework in a single click. Use the following examples as a starting point for your own taxonomy:
+
+| Level 1 | Level 2 | Level 3 |
+|---------|---------|---------|
+| Regulatory | US | SEC |
+| Regulatory | US | FINRA |
+| Regulatory | US | FinCEN / AML |
+| Regulatory | EU | GDPR |
+| Regulatory | EU | MiFID II |
+| Regulatory | UK | FCA |
+| Regulatory | Global | FATF |
+
+To create this hierarchy, navigate to **Knowledge Base → Topics** and use **Add Subtopic** to build each level. Once topics are in place, tag every new regulatory entry to the appropriate leaf-level topic (e.g. `Regulatory > US > SEC`) so it surfaces correctly in filtered views and reports.
+
+<Tip>
+  Link related regulatory entries to one another to speed up cross-referencing during audits. For example, attach a compliance procedure entry directly to the SEC rule entry it implements. Open the source entry, click **Insert → Related Entry** in the body editor, and search for the procedure by name. The link appears as a card in the entry's **Related** sidebar panel, making the connection visible to every reviewer.
+</Tip>
+
+## Tracking Regulatory Changes
+
+Regulatory frameworks change frequently, and your knowledge base must keep pace. LegFi KM provides three mechanisms to ensure regulatory entries stay current.
+
+**Expiry Dates**
+
+Set an expiry date on every regulatory entry to trigger a mandatory review before the entry ages out. Annual reviews are a sensible default for most rules, but high-volatility areas such as AML thresholds or sanctions lists may warrant quarterly cadences. To set an expiry date, open the entry, click **Settings → Review Schedule**, and choose a date or a recurring interval.
+
+**Compliance Ownership**
+
+Assign a compliance owner to each topic or individual entry so accountability is always clear. Navigate to the topic page and click **Assign Owner**, or set ownership per entry under **Settings → Ownership**. The assigned owner receives automated email reminders 30 days and 7 days before an entry expires.
+
+**Review and Approval Workflow**
+
+Before a regulatory entry is published or updated, route it through a review workflow to ensure a qualified reviewer validates the change. In **Settings → Workflows**, configure a Regulatory Review workflow that requires at least one Legal or Compliance team member to approve before a Draft transitions to Published. Any edit to a Published entry automatically returns it to Draft and requeues it for approval.
+
+## Compliance Checklists
+
+For obligations that require recurring action — such as quarterly certifications, annual training records, or periodic control tests — create a Checklist entry type. Checklists give you a structured record that can be tracked, assigned, and audited independently of prose policy documents.
+
+<Steps>
+  <Step title="Create a new entry">
+    Navigate to the relevant topic (for example, `Regulatory > US > SEC`) and click **+ New Entry**. Give the entry a descriptive name such as *Q4 SEC Filing Readiness Checklist*.
+  </Step>
+  <Step title="Switch to checklist format">
+    In the body editor toolbar, click the **Checklist** block type (the checkbox icon). Each line you add becomes an individually completable checklist item.
+  </Step>
+  <Step title="Add checklist items">
+    Enter each obligation or task as a separate line. Be specific: instead of *Review disclosures*, write *Review Form 10-Q Item 1A risk factor disclosures against current risk register*.
+  </Step>
+  <Step title="Set a due date and assign an owner">
+    In the entry **Settings** panel, set a **Due Date** aligned with your filing or review deadline and assign an **Owner** who is responsible for completing and certifying the checklist.
+  </Step>
+  <Step title="Publish and track">
+    Publish the entry through your Regulatory Review workflow. The assigned owner checks off items in the live entry as work completes. Every item completion is recorded in the entry's audit trail with the user's identity and a timestamp.
+  </Step>
+</Steps>
+
+<Note>
+  Checklist completions are permanent audit events. Once a checklist item is marked complete, the action is logged in the entry's audit trail. Items can be unchecked if a correction is needed, but both the original completion and the reversal are recorded separately, preserving a full history.
+</Note>
+
+## Reporting for Auditors
+
+When regulators or internal auditors request evidence of your compliance program, LegFi KM's Compliance Report provides a ready-made, exportable view of your entire knowledge base's compliance posture.
+
+To access the report, navigate to **Reports → Compliance**. The report displays every entry in your workspace with the following columns:
+
+<ResponseField name="Entry Title" type="string">
+  The name of the knowledge entry.
+</ResponseField>
+
+<ResponseField name="Topic" type="string">
+  The full topic path (e.g. `Regulatory > US > FINRA`).
+</ResponseField>
+
+<ResponseField name="Status" type="string">
+  Current workflow status: Draft, In Review, Published, or Expired.
+</ResponseField>
+
+<ResponseField name="Last Reviewed" type="date">
+  The date the entry was most recently approved and published.
+</ResponseField>
+
+<ResponseField name="Expiry Date" type="date">
+  The date on which the entry is scheduled for mandatory review.
+</ResponseField>
+
+<ResponseField name="Assigned Owner" type="string">
+  The user or team responsible for keeping the entry current.
+</ResponseField>
+
+Filter the report by topic, status, owner, or date range to focus on exactly the scope an auditor needs. When you are ready to share, click **Export** and choose **PDF** (for regulator submissions) or **CSV** (for internal analysis). Exports include a generation timestamp and your workspace name in the header so the provenance of the report is always clear.
+
+<Warning>
+  Compliance Reports reflect the state of your knowledge base at the time of export. If entries are updated after you share a report, regenerate and re-export to ensure the version you provide to auditors matches your current posture.
+</Warning>

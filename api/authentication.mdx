@@ -1,0 +1,173 @@
+---
+title: "Authenticate API Requests to LegFi KM"
+sidebarTitle: "Authentication"
+description: "Generate and use API tokens to authenticate requests to the LegFi KM REST API. Includes token creation, header format, and error handling."
+---
+
+Every request to the LegFi KM REST API must be authenticated with a Bearer token. Tokens are issued per user account and inherit that user's role and permissions — an Editor token can perform any action an Editor can take in the UI, and an Admin token has full platform access. There are no separate API-level permission sets; your existing role-based access controls govern what each token can and cannot do.
+
+## Creating an API Token
+
+You generate API tokens directly from your account settings. Each token is a long-lived credential tied to your user account, so treat them with the same care as a password.
+
+<Steps>
+  <Step title="Open API Token Settings">
+    Navigate to **Settings → API Tokens** in the LegFi KM sidebar. You must be logged in to the account for which you want to generate a token.
+  </Step>
+  <Step title="Click New Token">
+    Click the **New Token** button in the upper-right corner of the API Tokens page. A modal dialog will appear.
+  </Step>
+  <Step title="Name Your Token">
+    Enter a descriptive name that identifies this token's purpose — for example, `CI Integration`, `Data Export Script`, or `Compliance Dashboard Feed`. A clear name makes it easy to audit and revoke tokens later.
+  </Step>
+  <Step title="Select an Expiry">
+    Choose how long the token should remain valid. Available options are:
+
+    | Option      | Best For                                          |
+    |-------------|---------------------------------------------------|
+    | 30 days     | Short-lived scripts, one-off data exports         |
+    | 90 days     | Quarterly integrations, temporary project access  |
+    | 1 year      | Long-running internal tools and dashboards        |
+    | No Expiry   | Dedicated service accounts with strict controls   |
+
+    <Info>
+      Tokens with no expiry are convenient for automated pipelines, but they require diligent management. Prefer time-limited tokens wherever possible and rotate them on a regular schedule.
+    </Info>
+  </Step>
+  <Step title="Copy the Token">
+    After clicking **Create Token**, LegFi KM displays your new token exactly once. Copy it immediately and store it in a secure location such as a password manager or a secrets vault. Once you close the dialog, the full token value is never shown again — you will need to revoke and recreate it if it is lost.
+  </Step>
+</Steps>
+
+## Using Your Token
+
+Pass your token in the `Authorization` header of every API request using the `Bearer` scheme. Include `Content-Type: application/json` alongside it for any request that sends a body.
+
+```bash
+curl -X GET https://api.legfikm.com/v1/entries \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "Content-Type: application/json"
+```
+
+The following example creates a new knowledge entry using an authenticated request:
+
+```bash
+curl -X POST https://api.legfikm.com/v1/entries \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "GDPR Data Retention Schedule",
+    "topic_id": "topic_4e91ac",
+    "body": "This entry defines the retention periods for all personal data categories..."
+  }'
+```
+
+If you are using a client library, set the token once at initialization and let the library attach it to every request automatically:
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import requests
+
+    session = requests.Session()
+    session.headers.update({
+        "Authorization": "Bearer YOUR_API_TOKEN",
+        "Content-Type": "application/json"
+    })
+
+    response = session.get("https://api.legfikm.com/v1/entries")
+    entries = response.json()["data"]
+    ```
+  </Tab>
+  <Tab title="JavaScript">
+    ```javascript
+    const BASE_URL = "https://api.legfikm.com/v1";
+    const TOKEN = process.env.LEGFIKM_API_TOKEN;
+
+    async function apiFetch(path, options = {}) {
+      const response = await fetch(`${BASE_URL}${path}`, {
+        ...options,
+        headers: {
+          "Authorization": `Bearer ${TOKEN}`,
+          "Content-Type": "application/json",
+          ...(options.headers ?? {}),
+        },
+      });
+      return response.json();
+    }
+
+    const { data: entries } = await apiFetch("/entries");
+    ```
+  </Tab>
+</Tabs>
+
+<Warning>
+  Never commit API tokens to source control. Even in private repositories, exposed tokens are a significant security risk. Store all tokens in environment variables or a dedicated secrets manager (e.g., HashiCorp Vault, AWS Secrets Manager, or your CI/CD platform's built-in secrets store) and reference them at runtime.
+</Warning>
+
+## Token Permissions
+
+API tokens do not have independent permission settings. They inherit the full role of the user account that created them, exactly as that role is configured in **Settings → Roles & Permissions**.
+
+<CardGroup cols={2}>
+  <Card title="Viewer Token" icon="eye">
+    Can read and search knowledge entries, topics, and audit trails. Cannot create, edit, or approve any content.
+  </Card>
+  <Card title="Editor Token" icon="pencil">
+    Can create, update, and submit entries for review. Cannot approve or publish entries, and cannot manage users or settings.
+  </Card>
+  <Card title="Approver Token" icon="check">
+    All Editor capabilities, plus the ability to approve and publish entries through the review workflow.
+  </Card>
+  <Card title="Admin Token" icon="shield">
+    Full platform access, including user management, taxonomy configuration, role assignments, and all content operations.
+  </Card>
+</CardGroup>
+
+<Tip>
+  For automated pipelines and service integrations, create a dedicated service account user with the minimum required role — typically **Editor** — and generate the token from that account. This keeps your personal credentials separate from machine credentials and makes it straightforward to audit or revoke access without affecting your own account.
+</Tip>
+
+## Revoking Tokens
+
+Revoke a token any time you suspect it has been compromised, when a team member who owned the token leaves your organization, or when a token is no longer needed.
+
+<Steps>
+  <Step title="Open API Token Settings">
+    Go to **Settings → API Tokens**.
+  </Step>
+  <Step title="Locate the Token">
+    Find the token you want to revoke in the list. Tokens are identified by the name you assigned at creation and display their creation date and last-used timestamp.
+  </Step>
+  <Step title="Click Revoke">
+    Click **Revoke** next to the token and confirm the action in the dialog. Revocation is immediate and cannot be undone.
+  </Step>
+</Steps>
+
+Once revoked, any request using that token returns a `401 unauthorized` error with the code `invalid_token`. Existing sessions in the LegFi KM web application are not affected — only API calls using that specific token are blocked.
+
+## Authentication Errors
+
+If your request fails due to an authentication or authorization problem, the API returns one of the following errors. Use the `code` field in the response body to identify the exact cause.
+
+| HTTP Status | Code                     | Cause                                                                          |
+|-------------|--------------------------|--------------------------------------------------------------------------------|
+| `401`       | `missing_token`          | No `Authorization` header was included in the request                          |
+| `401`       | `invalid_token`          | The token is malformed, does not exist, or has been revoked                    |
+| `401`       | `expired_token`          | The token existed but has passed its configured expiry date                    |
+| `403`       | `insufficient_permissions` | The token is valid and active, but the associated role does not permit this action |
+
+A `401` error always indicates an issue with the token itself — either it is absent, unrecognizable, or no longer valid. A `403` error means authentication succeeded but the token's role does not allow the requested operation. In the `403` case, you do not need a new token; you need a token from a user with a higher-privileged role.
+
+```json
+{
+  "error": {
+    "code": "expired_token",
+    "message": "This API token expired on 2024-06-01T00:00:00Z. Generate a new token in Settings → API Tokens."
+  },
+  "meta": {
+    "request_id": "req_xyz999",
+    "timestamp": "2024-09-12T10:05:33Z"
+  }
+}
+```

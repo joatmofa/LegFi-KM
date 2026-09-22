@@ -1,0 +1,279 @@
+---
+title: "REST API Endpoints for Topics"
+sidebarTitle: "Topics"
+description: "List, create, and manage topics (your knowledge taxonomy) via the LegFi KM REST API with request and response examples."
+---
+
+Topics form the taxonomy that organizes your knowledge base. Every entry in LegFi KM can be assigned to one or more topics, and topics themselves can be nested to reflect your organization's hierarchy — for example, a top-level "Regulatory Compliance" topic might contain children like "GDPR," "AML," and "MiFID II." The Topics API lets you read this taxonomy programmatically and, for Admins, manage it as your compliance landscape evolves. All requests require a valid Bearer token in the `Authorization` header, directed at `https://api.legfikm.com/v1`.
+
+<Note>
+  Creating, updating, and deleting topics via the API requires an **Admin** token. This mirrors the behavior in the LegFi KM UI, where taxonomy management is restricted to workspace administrators. Viewer, Editor, and Reviewer roles can read topics but cannot modify them.
+</Note>
+
+---
+
+## GET /topics
+
+Retrieve a flat list of all topics in the workspace. Pass the optional `parent_id` parameter to retrieve only the direct children of a specific topic, which is useful for progressively loading a topic tree.
+
+### Query Parameters
+
+<ParamField query="parent_id" type="string">
+  Filter to return only the direct children of the specified topic UUID. Omit this parameter to retrieve all top-level topics (those with no parent).
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X GET 'https://api.legfikm.com/v1/topics?parent_id=top_compliance_03' \
+  -H "Authorization: Bearer YOUR_API_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "top_gdpr_01",
+      "name": "GDPR",
+      "parent_id": "top_compliance_03",
+      "path": "Regulatory Compliance / GDPR",
+      "entry_count": 14
+    },
+    {
+      "id": "top_aml_07",
+      "name": "AML",
+      "parent_id": "top_compliance_03",
+      "path": "Regulatory Compliance / AML",
+      "entry_count": 9
+    },
+    {
+      "id": "top_mifid_02",
+      "name": "MiFID II",
+      "parent_id": "top_compliance_03",
+      "path": "Regulatory Compliance / MiFID II",
+      "entry_count": 6
+    }
+  ],
+  "meta": {
+    "total": 3
+  }
+}
+```
+
+---
+
+## GET /topics/{id}
+
+Retrieve a single topic by its unique ID. The response includes the topic's own fields as well as a nested `children` array containing its direct child topics. This is useful for rendering a single level of the taxonomy tree without making multiple requests.
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the topic to retrieve (e.g., `top_compliance_03`).
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X GET 'https://api.legfikm.com/v1/topics/top_compliance_03' \
+  -H "Authorization: Bearer YOUR_API_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "data": {
+    "id": "top_compliance_03",
+    "name": "Regulatory Compliance",
+    "parent_id": null,
+    "path": "Regulatory Compliance",
+    "entry_count": 29,
+    "children": [
+      {
+        "id": "top_gdpr_01",
+        "name": "GDPR",
+        "parent_id": "top_compliance_03",
+        "path": "Regulatory Compliance / GDPR",
+        "entry_count": 14
+      },
+      {
+        "id": "top_aml_07",
+        "name": "AML",
+        "parent_id": "top_compliance_03",
+        "path": "Regulatory Compliance / AML",
+        "entry_count": 9
+      },
+      {
+        "id": "top_mifid_02",
+        "name": "MiFID II",
+        "parent_id": "top_compliance_03",
+        "path": "Regulatory Compliance / MiFID II",
+        "entry_count": 6
+      }
+    ]
+  }
+}
+```
+
+---
+
+## POST /topics
+
+Create a new topic. To create a top-level topic, omit `parent_id`. To nest a topic under an existing one, include the parent's ID. Admin token required.
+
+### Body Parameters
+
+<ParamField body="name" type="string" required>
+  The display name of the new topic. Must be between 2 and 100 characters and unique within its parent scope.
+</ParamField>
+
+<ParamField body="parent_id" type="string">
+  The UUID of the parent topic. Omit this field to create a top-level (root) topic. LegFi KM supports up to five levels of topic nesting.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X POST 'https://api.legfikm.com/v1/topics' \
+  -H "Authorization: Bearer YOUR_ADMIN_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "DORA",
+    "parent_id": "top_compliance_03"
+  }'
+```
+
+### Example Response
+
+```json
+{
+  "data": {
+    "id": "top_dora_11",
+    "name": "DORA",
+    "parent_id": "top_compliance_03",
+    "path": "Regulatory Compliance / DORA",
+    "entry_count": 0
+  }
+}
+```
+
+---
+
+## PUT /topics/{id}
+
+Update an existing topic's name or parent. Changing `parent_id` moves the topic (and all its children) to a new location in the taxonomy hierarchy. Admin token required.
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the topic to update.
+</ParamField>
+
+### Body Parameters
+
+<ParamField body="name" type="string">
+  Updated display name for the topic.
+</ParamField>
+
+<ParamField body="parent_id" type="string">
+  Updated parent topic UUID. Pass `null` to promote the topic to the root level. Moving a topic re-calculates the `path` field for the topic and all of its descendants.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X PUT 'https://api.legfikm.com/v1/topics/top_dora_11' \
+  -H "Authorization: Bearer YOUR_ADMIN_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "DORA (Digital Operational Resilience Act)"
+  }'
+```
+
+### Example Response
+
+```json
+{
+  "data": {
+    "id": "top_dora_11",
+    "name": "DORA (Digital Operational Resilience Act)",
+    "parent_id": "top_compliance_03",
+    "path": "Regulatory Compliance / DORA (Digital Operational Resilience Act)",
+    "entry_count": 0
+  }
+}
+```
+
+---
+
+## DELETE /topics/{id}
+
+Permanently delete a topic. The API will refuse to delete a topic that has one or more entries currently assigned to it, returning a `409 Conflict` response. Before deleting, either reassign or delete the topic's entries, or use `PUT /entries/{id}` to remove the topic from each entry's `topic_ids`. Admin token required.
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the topic to delete.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X DELETE 'https://api.legfikm.com/v1/topics/top_dora_11' \
+  -H "Authorization: Bearer YOUR_ADMIN_API_TOKEN"
+```
+
+### Success Response
+
+A successful deletion returns HTTP `204 No Content` with an empty response body.
+
+```json
+
+```
+
+### Conflict Response
+
+If the topic has entries assigned, the API returns HTTP `409 Conflict`.
+
+```json
+{
+  "error": {
+    "code": "TOPIC_HAS_ENTRIES",
+    "message": "Cannot delete topic 'top_dora_11' because it has 3 entries assigned. Reassign or remove entries before deleting this topic.",
+    "entry_count": 3
+  }
+}
+```
+
+---
+
+## Topic Object Schema
+
+The following fields appear on topic objects returned across all `/topics` endpoints.
+
+<ResponseField name="id" type="string">
+  Unique identifier for the topic, prefixed with `top_`.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Display name of the topic as it appears in the UI and taxonomy tree.
+</ResponseField>
+
+<ResponseField name="parent_id" type="string | null">
+  UUID of the parent topic. `null` for root-level topics.
+</ResponseField>
+
+<ResponseField name="path" type="string">
+  Human-readable full path of the topic from the root, with levels separated by ` / ` (e.g., `Regulatory Compliance / GDPR`). Automatically maintained by LegFi KM when topics are moved.
+</ResponseField>
+
+<ResponseField name="entry_count" type="integer">
+  Total number of knowledge entries currently assigned to this topic. Does not include entries assigned only to child topics.
+</ResponseField>
+
+<ResponseField name="children" type="array of topic objects">
+  Nested array of direct child topics. Only present on responses from `GET /topics/{id}`. Each child includes all standard topic fields except a further nested `children` array.
+</ResponseField>

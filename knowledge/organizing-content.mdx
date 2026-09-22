@@ -1,0 +1,85 @@
+---
+title: "Organizing Content with Topics and Tags"
+sidebarTitle: "Organizing Content"
+description: "Structure your knowledge base with LegFi KM's topic hierarchy and tagging system to make content easy to find and maintain."
+---
+
+A well-designed taxonomy is the foundation of a usable knowledge base. Without consistent organization, even the most thoroughly written entries become difficult to locate, maintain, and trust. LegFi KM's topic system lets you build a hierarchical classification structure that mirrors your compliance framework, legal practice areas, or reporting obligations — so your team can navigate to the right guidance quickly, whether they are searching by keyword or browsing by category.
+
+## Understanding Topics
+
+Topics in LegFi KM are organized in a **parent/child hierarchy** that supports up to three levels of depth. This structure lets you move from broad subject areas down to specific regulatory instruments or procedural categories.
+
+For example, a regulatory compliance team might organize their topics like this:
+
+- **Regulatory** *(parent)*
+  - **SEC** *(child)*
+    - **Form 10-K** *(grandchild)*
+    - **Form 8-K** *(grandchild)*
+  - **FINRA** *(child)*
+    - **Rule 4512** *(grandchild)*
+- **Legal** *(parent)*
+  - **Contracts** *(child)*
+    - **NDAs** *(grandchild)*
+  - **Litigation** *(child)*
+
+Entries assigned to a grandchild topic (e.g., *Form 10-K*) automatically appear when a user browses or filters by any of its ancestors (e.g., *SEC* or *Regulatory*). This roll-up behavior means you never need to assign multiple levels of the same branch to a single entry — assigning the most specific topic is always sufficient.
+
+## Creating Topics
+
+Only users with the **Admin** role can create, rename, or delete topics. This restriction keeps your taxonomy consistent and prevents the proliferation of duplicate or redundant categories.
+
+<Steps>
+  <Step title="Open Topic Settings">
+    Click your workspace name in the top-left corner, then navigate to **Settings > Topics**.
+  </Step>
+  <Step title="Create a New Topic">
+    Click **New Topic** in the top-right corner of the Topics settings page.
+  </Step>
+  <Step title="Enter a Topic Name">
+    Type a clear, concise name for the topic. Use noun phrases that reflect established terminology in your compliance framework or legal practice — for example, *Anti-Money Laundering*, *IFRS 9*, or *Employment Contracts*.
+  </Step>
+  <Step title="Select a Parent Topic (Optional)">
+    If this topic belongs under an existing category, select the parent from the **Parent Topic** dropdown. Leave this field blank to create a top-level topic. Remember that the hierarchy supports a maximum of three levels, so a grandchild topic cannot itself have children.
+  </Step>
+  <Step title="Save the Topic">
+    Click **Save Topic**. The new topic is immediately available for assignment in the entry editor.
+  </Step>
+</Steps>
+
+<Note>
+  Only Admins can create, rename, or delete topics. However, users with the **Editor** role can assign any existing topic to an entry they are working on. If you need a new topic that does not yet exist, contact your workspace Admin.
+</Note>
+
+## Assigning Topics to Entries
+
+You assign topics to an entry while creating or editing it. The **Topics** panel appears in the right-hand sidebar of the entry editor.
+
+- **Multi-select:** You can assign more than one topic to a single entry. This is useful when an entry genuinely spans multiple subject areas — for example, an entry about insider trading restrictions during earnings blackout periods might belong to both *SEC Compliance* and *Employee Policies*.
+- **Search within topics:** If your topic list is long, type in the topic search field within the panel to filter the list before selecting.
+- **No topic limit:** There is no hard limit on the number of topics per entry, but assigning more than four or five is usually a sign that the entry covers too broad a scope and should be split into multiple focused entries.
+
+To remove a topic from an entry, click the **×** next to the topic chip in the Topics panel, then save the entry.
+
+## Topic Best Practices
+
+A consistent taxonomy requires deliberate planning and ongoing governance. The following practices help keep your topic structure clean and navigable as your knowledge base grows.
+
+<CardGroup cols={2}>
+  <Card title="Align with Your Compliance Framework" icon="sitemap">
+    Map your top-level topics to the domains in your compliance framework — such as COSO, COBIT, ISO 27001, or your internal risk taxonomy. This makes it easier to demonstrate coverage during audits and ensures your team uses the same vocabulary as your framework documentation.
+  </Card>
+  <Card title="Limit Hierarchy Depth" icon="layer-group">
+    LegFi KM supports three levels of hierarchy, and you should use all three only when necessary. Many teams find that two levels (parent and child) are sufficient. Deeper hierarchies require more navigation and can make the taxonomy feel bureaucratic.
+  </Card>
+  <Card title="Review Topics Quarterly" icon="calendar-check">
+    Schedule a quarterly review of your topic structure with your knowledge base Admin. Look for topics with zero or very few entries, duplicate topics that cover the same ground, and gaps where new regulatory areas have emerged that are not yet represented.
+  </Card>
+  <Card title="Avoid One-Off Topics" icon="triangle-exclamation">
+    Do not create a topic for a single entry that is unlikely to grow. If you have only one entry about a specific form or regulation, assign it to its parent topic instead. Create a more specific child topic only once you have three or more entries that share that focus.
+  </Card>
+</CardGroup>
+
+<Tip>
+  When rolling out LegFi KM to a new team, start with a draft taxonomy and review it with all stakeholders before creating entries at scale. Renaming topics later is possible but requires Admin action and can temporarily disrupt saved searches and navigation bookmarks.
+</Tip>

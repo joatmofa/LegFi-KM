@@ -1,0 +1,112 @@
+---
+title: "Understanding Audit Trails and Compliance Logs"
+sidebarTitle: "Audit Trails"
+description: "LegFi KM automatically logs every action on every entry. Learn how to access, read, and export audit trails for regulatory review."
+---
+
+LegFi KM maintains an immutable audit trail for every knowledge entry in your workspace. Every action — creating an entry, editing content, changing a workflow status, approving or rejecting a review, viewing a sensitive document, restoring a prior version, or permanently deleting a record — is captured automatically with a precise timestamp, the identity of the user who performed the action, and the IP address from which the action originated. You do not need to configure or enable audit logging; it is always on and always comprehensive.
+
+<Note>
+  Audit logs in LegFi KM cannot be edited, redacted, or deleted by any user, including workspace Admins and Owners. This immutability is a deliberate design guarantee that ensures the integrity of your compliance record. If you need to add context to a logged event, you can annotate the corresponding entry's history with a note, but the underlying log event itself remains unchanged.
+</Note>
+
+## What Is Logged
+
+The following table lists every event type that LegFi KM records in the audit trail, along with the data captured for each event.
+
+| Event Type | Trigger | Data Captured |
+|------------|---------|---------------|
+| **Entry Created** | A new entry is saved for the first time | Entry ID, title, topic, creator identity, creation timestamp |
+| **Entry Edited** | Any change to the entry body, title, or metadata is saved | Version number (incremented), a diff summary of changed fields, editor identity, edit timestamp |
+| **Status Changed** | An entry moves between workflow states (e.g. Draft → In Review) | Previous status, new status, the user who initiated the change, timestamp |
+| **Reviewer Approved** | A designated reviewer approves an entry in the review workflow | Reviewer identity, approval timestamp, any reviewer notes submitted |
+| **Reviewer Rejected** | A reviewer returns an entry to the author with feedback | Reviewer identity, rejection timestamp, rejection reason and notes |
+| **Entry Viewed** | A user opens and views an entry | Viewer identity, view timestamp, IP address — logged for entries with entry-level permissions or in topics marked as sensitive |
+| **Entry Restored** | A prior version is restored as the current version | Source version number, user who initiated the restore, restore timestamp |
+| **Entry Deleted** | An entry is permanently deleted (Admin action only) | Entry ID, title, topic path, deleting user identity, deletion timestamp |
+| **Permission Changed** | Entry-level or topic-level access permissions are modified | Previous permission state, new permission state, user who made the change, timestamp |
+| **Owner Reassigned** | The assigned owner of an entry or topic changes | Previous owner, new owner, reassigning user, timestamp |
+
+<Expandable title="A note on Entry Viewed logging">
+  By default, LegFi KM logs view events only for entries that have entry-level permissions enabled or that belong to topics flagged as sensitive (configured in **Topic Settings → Sensitivity**). For standard entries in non-sensitive topics, view events are sampled and not recorded individually in order to keep the audit log focused on meaningful compliance events. If your regulatory obligations require full view logging for all entries, contact LegFi KM Support to enable comprehensive view logging for your workspace — this is available on Enterprise plans.
+</Expandable>
+
+## Accessing an Entry's Audit Trail
+
+Every entry has its own audit trail tab that gives you a chronological record of all events on that specific entry — without requiring Admin access.
+
+<Steps>
+  <Step title="Open the entry">
+    Navigate to the knowledge entry whose history you want to review. You can reach it from the topic view, a search result, or a direct link.
+  </Step>
+  <Step title="Click the Audit Trail tab">
+    In the entry header, click the **Audit Trail** tab (next to **Content**, **Related**, and **Versions**). The tab is visible to any user with at least read access to the entry.
+  </Step>
+  <Step title="Read the event feed">
+    The Audit Trail displays events in reverse chronological order — the most recent action appears at the top. Each event card shows:
+    - **User avatar and name** — who performed the action
+    - **Action description** — a human-readable label (e.g. *Edited — version 4*, *Approved by Reviewer*, *Status changed: In Review → Published*)
+    - **Timestamp** — the exact date and time of the action in your workspace's configured timezone
+    - **IP address** — the originating IP of the action (useful for security reviews)
+  </Step>
+  <Step title="Expand an edit event for details">
+    Click any **Entry Edited** event to expand a diff view showing exactly which fields changed and what the previous values were. This makes it straightforward to trace when a specific piece of policy language was introduced or removed.
+  </Step>
+</Steps>
+
+## Workspace-Level Audit Log
+
+For compliance officers and workspace Admins who need visibility across the entire platform — not just a single entry — LegFi KM provides a workspace-wide Audit Log that aggregates every logged event from every entry, topic, user, and settings change.
+
+Access the workspace Audit Log at **Settings → Audit Log**. This view is restricted to users with the **Admin** or **Compliance Officer** role.
+
+The Audit Log includes a full set of filters so you can scope your review precisely:
+
+<Tabs>
+  <Tab title="Filter by User">
+    Select one or more specific users from the **User** dropdown to see every action performed by those individuals across the entire workspace during the selected date range. Useful for investigating a specific user's activity following a security incident or access review.
+  </Tab>
+  <Tab title="Filter by Event Type">
+    Choose one or more event types (Created, Edited, Status Changed, Deleted, etc.) from the **Event Type** multi-select to focus on a particular class of actions. For example, filter to **Entry Deleted** events to audit all deletion activity in a given period.
+  </Tab>
+  <Tab title="Filter by Topic">
+    Scope the log to a specific topic or topic branch (for example, `Regulatory > US > SEC`) to review all activity within a compliance domain. This is the most efficient view for topic-focused regulatory examinations.
+  </Tab>
+  <Tab title="Filter by Date Range">
+    Set a **From** and **To** date to define the time window. You can query up to 12 months of data in a single view. For broader historical analysis, use multiple sequential exports.
+  </Tab>
+</Tabs>
+
+## Exporting Audit Logs
+
+LegFi KM provides flexible export options so you can share audit evidence with external regulators, internal auditors, or your legal team in the format they need.
+
+<Steps>
+  <Step title="Navigate to the audit view you want to export">
+    You can export from either an individual entry's **Audit Trail** tab or from the workspace-wide **Settings → Audit Log**. Apply any filters you need before exporting so the export reflects the scoped dataset.
+  </Step>
+  <Step title="Click Export">
+    Click the **Export** button in the top-right corner of the audit view. A dialog box opens with format and date range options.
+  </Step>
+  <Step title="Select your format">
+    Choose the format that best suits your recipient:
+
+    - **CSV** — A spreadsheet-compatible flat file ideal for analysis in Excel, Google Sheets, or your SIEM. Each row is one event with all fields as columns.
+    - **JSON** — A structured format suitable for ingestion into SIEM tools, compliance platforms, or custom dashboards via the LegFi KM API.
+    - **PDF** — A paginated, formatted report with your workspace name, export date, and applied filters in the header. The PDF format is designed for submission to regulators and inclusion in audit packages.
+  </Step>
+  <Step title="Set the date range">
+    Confirm or adjust the date range in the export dialog. Each export covers up to 12 months of data. If you need records spanning more than 12 months, export in sequential 12-month segments and combine them for analysis.
+  </Step>
+  <Step title="Download and verify">
+    Click **Generate Export**. LegFi KM processes the export and provides a download link within seconds for most date ranges (larger exports may take up to two minutes). Verify the downloaded file includes the expected date range and event count before submitting it to an auditor.
+  </Step>
+</Steps>
+
+<Tip>
+  Schedule a recurring audit log export as a standing item on your compliance calendar — monthly exports are a best practice for most organizations. Set a calendar reminder on the first business day of each month to export the prior month's workspace audit log in both CSV and PDF formats. Store the CSV in your data analysis environment for trend monitoring and the PDF in your audit evidence archive. This habit ensures you always have a pre-prepared, time-bounded record available when regulators request it, rather than scrambling to assemble evidence under examination pressure.
+</Tip>
+
+<Accordion title="Audit log retention policy">
+  LegFi KM retains audit log data for a minimum of **7 years** from the date each event is recorded, regardless of whether the corresponding entry or user account has been deleted. This retention period meets or exceeds the records retention requirements of most major financial regulators, including the SEC (Rule 17a-4), FINRA, and the FCA. If your jurisdiction requires a longer retention period, contact LegFi KM Support to configure an extended retention policy for your workspace.
+</Accordion>

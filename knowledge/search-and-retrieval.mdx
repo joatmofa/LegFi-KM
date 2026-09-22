@@ -1,0 +1,82 @@
+---
+title: "Search and Retrieve Knowledge in LegFi KM"
+sidebarTitle: "Search"
+description: "Use LegFi KM's full-text search and topic filters to quickly find regulatory guidance, legal documents, and financial records."
+---
+
+LegFi KM's search system is designed for the precision and speed that compliance and legal work demands. Every published entry — including its title, body text, and assigned topics — is fully indexed, so you can locate a specific regulatory citation, policy clause, or procedural note in seconds. Whether you are running down a reference in the middle of a client meeting or systematically reviewing all guidance under a particular regulation, search is your fastest path to the right answer.
+
+## Basic Search
+
+To open the search bar, click the **Search** field at the top of any page, or press **Cmd+K** on macOS or **Ctrl+K** on Windows and Linux. This opens the global search overlay, which you can use from anywhere in the application without losing your place.
+
+As you type, LegFi KM searches across:
+- **Entry titles** — the highest-weight field, so an exact title match appears first
+- **Entry body text** — full-text indexing of all content in the rich-text editor
+- **Assigned topics** — entries are surfaced when their topic name matches your query
+
+Results are ranked by relevance, with exact phrase matches and title matches ranked above partial body-text matches. The search overlay shows the top 10 results as you type. Press **Enter** or click **View All Results** to open the full results page with filtering options.
+
+## Filtering Results
+
+On the full results page, use the **Filters** panel on the left to narrow your results. You can combine multiple filters simultaneously.
+
+<Accordion title="Filter by Topic">
+  Select one or more topics from the topic tree. The filter is additive — selecting *SEC* and *FINRA* returns entries assigned to either topic. Selecting a parent topic automatically includes entries from all child and grandchild topics beneath it.
+</Accordion>
+
+<Accordion title="Filter by Status">
+  Choose from **Draft**, **Under Review**, **Published**, or **Archived**. By default, the results page shows only Published entries. Users with Editor or Admin roles can expand the filter to include Drafts and entries Under Review that they have access to.
+</Accordion>
+
+<Accordion title="Filter by Date Range">
+  Set a **From** and **To** date, then choose whether to filter by **Date Created** or **Date Last Modified**. This is useful for finding entries that were updated during a specific review period or identifying content that has not been touched in over a year.
+</Accordion>
+
+<Accordion title="Filter by Author">
+  Type a team member's name or email address to see only entries they created. This is helpful when you need to review the work of a specific analyst or pull all entries authored by someone who has left the team.
+</Accordion>
+
+## Search Operators
+
+For more precise queries, you can use structured search operators directly in the search bar. Operators follow the format `key:value` and can be combined with plain keyword terms in a single query.
+
+| Operator | Example | Description |
+|---|---|---|
+| `"..."` | `"material adverse change"` | Returns entries containing the exact phrase. Use quotation marks to avoid results that match the words individually but not together. |
+| `topic:` | `topic:SEC` | Limits results to entries assigned to the named topic. The value is matched against topic names, not IDs. |
+| `author:` | `author:jane.doe` | Returns only entries authored by the specified user. Use the username (typically `firstname.lastname`) as it appears in your workspace. |
+| `status:` | `status:published` | Filters by entry status. Accepted values are `draft`, `under_review`, `published`, and `archived`. |
+| `before:` | `before:2024-01-01` | Returns entries last modified before the specified date. Use ISO 8601 format (`YYYY-MM-DD`). |
+| `after:` | `after:2023-01-01` | Returns entries last modified after the specified date. Can be combined with `before:` to define a date window. |
+
+You can combine operators and plain search terms in one query. For example:
+
+```
+topic:SEC status:published "beneficial ownership" after:2023-06-01
+```
+
+This query returns all published entries in the SEC topic that contain the exact phrase "beneficial ownership" and were modified after June 1, 2023.
+
+## Saving Searches
+
+If you run the same search regularly — for instance, checking all published entries under a specific regulation before a quarterly filing — you can save the search to reuse it with one click.
+
+<Steps>
+  <Step title="Run Your Search">
+    Perform a search using any combination of keywords, operators, and filters that produces the results you want.
+  </Step>
+  <Step title="Click Save Search">
+    At the top of the results page, click **Save Search**. A dialog box appears prompting you to name the search.
+  </Step>
+  <Step title="Name the Search">
+    Enter a descriptive name that will remind you of the search's purpose — for example, *Q4 SOX Published Entries* or *AML Guidance Modified This Year*.
+  </Step>
+  <Step title="Access Saved Searches">
+    Your saved searches appear in the **Saved Searches** section of the left navigation sidebar. Click any saved search to instantly re-run it with the same parameters. Results reflect the current state of the knowledge base, so you always see up-to-date matches.
+  </Step>
+</Steps>
+
+<Tip>
+  Create a saved search for each recurring compliance check you perform. For example, save a search for `topic:FCPA status:published` to quickly pull up all active FCPA guidance before conducting third-party due diligence reviews. You can maintain a library of saved searches tailored to your specific regulatory obligations without having to reconstruct complex queries each time.
+</Tip>

@@ -1,0 +1,146 @@
+---
+title: "Review and Approval Workflows for Knowledge Entries"
+sidebarTitle: "Review Workflows"
+description: "Route LegFi KM knowledge entries through structured approval workflows before publishing, ensuring accuracy and accountability."
+---
+
+Before a knowledge entry is published to your organization, it goes through a review workflow. This ensures that regulatory guidance, legal analysis, and compliance content is validated by the right people before it reaches your broader audience. Every change is tracked in the entry's audit trail, giving you a complete record of who reviewed what and when — a requirement for many regulatory frameworks.
+
+## The Default Workflow
+
+Every LegFi KM workspace ships with a four-stage default workflow that balances simplicity with accountability. The diagram below shows the happy path from creation to publication, along with the rejection loop that returns entries to their author for revision.
+
+```
+Draft → Submit for Review → Under Review → Approved / Published
+                                    ↓
+                                Rejected → Draft (with reviewer comments)
+```
+
+<Steps>
+  <Step title="Draft">
+    An Editor or Reviewer creates a new entry. The entry is only visible to its author and workspace Admins until it moves to the next stage. Authors can save, edit, and iterate freely in this state.
+  </Step>
+  <Step title="Submit for Review">
+    The author clicks **Submit for Review** to hand the entry off to a Reviewer. The author may optionally include a note explaining the changes or flagging specific sections for the reviewer's attention.
+  </Step>
+  <Step title="Under Review">
+    The entry is locked for editing by the author while a Reviewer examines it. The assigned Reviewer sees the entry in their **Review Queue** and receives a notification. The entry remains in this state until the Reviewer takes action.
+  </Step>
+  <Step title="Approved / Published or Rejected">
+    The Reviewer either **Approves** the entry — which publishes it immediately and notifies topic subscribers — or **Requests Changes**, which returns the entry to Draft status and sends the author a notification containing the reviewer's comments. The author can then revise and resubmit.
+  </Step>
+</Steps>
+
+<Note>
+  Only users with the **Reviewer** or **Admin** role can approve entries and move them to Published status. Editors cannot self-approve their own work, even on entries they authored.
+</Note>
+
+## Submitting an Entry for Review
+
+When you are satisfied with a draft entry and ready for it to be reviewed, submit it directly from the entry editor. The process takes only a few seconds.
+
+<Steps>
+  <Step title="Open the Draft Entry">
+    Navigate to the entry in your knowledge base. Confirm that the status badge in the top-left corner reads **Draft**.
+  </Step>
+  <Step title="Click Submit for Review">
+    Click the **Submit for Review** button in the entry toolbar. A submission dialog appears.
+  </Step>
+  <Step title="Assign a Reviewer (Optional)">
+    If your workspace has multiple Reviewers, you can assign a specific person from the **Assign Reviewer** dropdown. If you leave this blank, all Reviewers in the workspace are notified and any one of them can pick up the entry.
+  </Step>
+  <Step title="Add a Note (Optional)">
+    Use the **Note to Reviewer** field to provide context — for example, "Updated penalty table to reflect Q3 regulation change" or "Please pay particular attention to Section 4, which references the new guidance." Notes are saved in the entry's audit trail.
+  </Step>
+  <Step title="Set a Due Date (Optional)">
+    Enter a **Due Date** if the review needs to be completed by a specific deadline. See [Review Deadlines](#review-deadlines) for details on how overdue items are surfaced.
+  </Step>
+  <Step title="Confirm Submission">
+    Click **Submit**. The entry status changes to **Under Review**, the editing toolbar is replaced with a read-only view, and the assigned Reviewer receives an in-app notification and email.
+  </Step>
+</Steps>
+
+<Tip>
+  Use the **@mention** feature in your submission note to loop in additional team members who should be aware of the review but are not the primary Reviewer — for example, `@Jane Smith please see Section 3 before this is approved`. Mentioned users receive a notification and can view the entry even if they are not assigned as the Reviewer.
+</Tip>
+
+## Reviewing and Approving
+
+As a Reviewer, your Review Queue is your primary workspace in LegFi KM. It surfaces every entry awaiting your attention, ordered by submission date with overdue items flagged at the top.
+
+<Steps>
+  <Step title="Open the Review Queue">
+    Click **Review Queue** in the left navigation panel. You will see a list of all entries currently assigned to you or awaiting any Reviewer in your workspace.
+  </Step>
+  <Step title="Open the Entry">
+    Click the entry title to open it in review mode. You can read the full content, view the author's submission note, see the diff against the previous published version (if one exists), and examine the entry's full version history.
+  </Step>
+  <Step title="Add Comments (Optional)">
+    Use the inline commenting tool to highlight specific text and attach a comment directly to it. Comments appear in context alongside the text and are visible to the author when the entry is returned for changes.
+  </Step>
+  <Step title="Approve or Request Changes">
+    When you have finished your review, choose one of the two outcomes:
+    - **Approve** — Click **Approve** to publish the entry immediately. It becomes visible to all users with access to its topic, and topic subscribers receive an **Entry Published** notification.
+    - **Request Changes** — Click **Request Changes**, type a summary of what needs to be addressed in the comment field, and click **Send**. The entry returns to **Draft** status and the author receives a notification with your comments attached.
+  </Step>
+</Steps>
+
+<Warning>
+  Approving an entry publishes it immediately. There is no separate "schedule for publication" step in the default workflow. If you need to approve content but delay its publication, use a **Custom Approval Chain** with a publication hold stage — available on the Enterprise plan.
+</Warning>
+
+## Custom Approval Chains
+
+<Info>
+  Custom Approval Chains are available on the **Enterprise** plan. Workspaces on Starter and Professional plans use the default single-Reviewer workflow.
+</Info>
+
+Large organizations often require more than one approval before sensitive content goes live. Custom Approval Chains let you define a sequential multi-stage process — for example, an entry must be approved first by a Legal Reviewer, then by the Chief Compliance Officer, before it publishes automatically.
+
+**Example chain:**
+
+```
+Editor submits → Legal Reviewer approves → Compliance Officer approves → Published
+```
+
+If any stage is rejected, the entry returns to the author with comments from the rejecting reviewer. All prior approvals are preserved in the audit trail.
+
+**Creating a custom workflow:**
+
+<Steps>
+  <Step title="Open Workflow Settings">
+    Navigate to **Settings → Workflows**, then click **New Workflow**.
+  </Step>
+  <Step title="Name the Workflow">
+    Give the workflow a descriptive name such as `Regulatory Guidance - Full Review` or `M&A Deal Memo Approval`. Workflow names appear in the entry submission dialog so authors know which process they are initiating.
+  </Step>
+  <Step title="Add Approval Stages">
+    Click **Add Stage** for each sequential approval step. For each stage, specify:
+    - **Stage Name** (e.g., `Legal Review`, `Compliance Sign-Off`)
+    - **Assignee Type** — assign to a specific user, a team, or any member of a given role
+    - **Instructions** — optional guidance displayed to the reviewer at that stage
+  </Step>
+  <Step title="Set the Scope">
+    Under **Apply To**, choose the topics or entry types that should use this workflow by default. Authors can also manually select a workflow when submitting an entry.
+  </Step>
+  <Step title="Activate the Workflow">
+    Toggle the workflow to **Active** and click **Save**. It becomes immediately available for new submissions.
+  </Step>
+</Steps>
+
+## Review Deadlines
+
+Setting a due date on a review submission creates a visible deadline in the reviewer's queue. Deadlines help prevent regulatory guidance from sitting in review indefinitely during busy periods.
+
+<CardGroup cols={2}>
+  <Card title="Setting a Due Date" icon="calendar">
+    When submitting an entry for review, enter a date in the **Due Date** field of the submission dialog. The date is stored with the submission and visible to all Reviewers who can see the entry.
+  </Card>
+  <Card title="Overdue Indicators" icon="triangle-exclamation">
+    If a review has not been completed by the due date, the entry is highlighted in **red** in the Review Queue and an **Overdue** badge appears next to the entry title. Admins can see overdue reviews across all Reviewers from **Settings → Workflows → Review Activity**.
+  </Card>
+</CardGroup>
+
+<Tip>
+  For time-sensitive regulatory deadlines, use the @mention feature in your submission note to alert your reviewer's manager as a secondary contact — for example, `@Compliance Lead — please note this must be approved before the filing deadline on Friday`.
+</Tip>

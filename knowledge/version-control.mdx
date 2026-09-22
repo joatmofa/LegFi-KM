@@ -1,0 +1,100 @@
+---
+title: "Track Changes with Entry Version History"
+sidebarTitle: "Version Control"
+description: "LegFi KM automatically versions every knowledge entry. Compare, restore, and audit changes to maintain regulatory accuracy over time."
+---
+
+Every time you save a knowledge entry, LegFi KM automatically creates a new, numbered version and stores it alongside all previous versions. You never need to manually snapshot a document or maintain parallel copies to protect against unwanted changes. This automatic versioning gives your team a complete, tamper-evident record of how a policy, guidance note, or legal interpretation has evolved — which is essential when regulators or auditors ask you to demonstrate that your documented procedures were accurate as of a specific date.
+
+## Viewing Version History
+
+<Steps>
+  <Step title="Open the Entry">
+    Navigate to the knowledge entry whose history you want to review. You can reach it from any list view, topic page, or search result by clicking its title.
+  </Step>
+  <Step title="Click the History Tab">
+    At the top of the entry view, click the **History** tab. This opens the version history panel, which displays the complete list of saved versions for this entry.
+  </Step>
+  <Step title="Review the Version List">
+    Each row in the version list shows the following information:
+
+    | Field | Description |
+    |---|---|
+    | **Version** | A sequential integer starting at 1. The current live version always has the highest number. |
+    | **Timestamp** | The exact date and time the version was saved, displayed in your workspace's configured timezone. |
+    | **Author** | The full name and username of the team member who saved this version. |
+    | **Change Summary** | A brief system-generated note describing the nature of the change — for example, *Body updated*, *Topic added: FINRA*, or *Restored from version 4*. Authors can also add a manual change note when saving. |
+  </Step>
+</Steps>
+
+## Comparing Versions
+
+LegFi KM's side-by-side diff view lets you see exactly what changed between any two versions, down to individual words and characters. This is particularly useful for understanding the substantive effect of an edit before approving it, or for explaining a change to an auditor.
+
+<Steps>
+  <Step title="Select Two Versions">
+    In the History tab, check the boxes on the left side of any two version rows. You can select any two versions — they do not need to be sequential.
+  </Step>
+  <Step title="Click Compare">
+    Click the **Compare** button that appears at the top of the version list once two versions are selected.
+  </Step>
+  <Step title="Review the Diff">
+    The comparison view opens with the older version on the left and the newer version on the right. Changes are highlighted inline:
+    - **Green text with a green background** indicates content that was added in the newer version.
+    - **Red text with a red background** indicates content that was removed from the older version.
+    - Unchanged text is shown in plain black on a white background.
+
+    Use the **Previous Change** and **Next Change** navigation buttons to jump between changed sections in long entries.
+  </Step>
+</Steps>
+
+<Tip>
+  Use the comparison view as part of your review workflow. Before approving an entry that is **Under Review**, compare the submitted version against the most recent published version to understand exactly what the author changed and evaluate whether the edits are accurate and appropriate.
+</Tip>
+
+## Restoring a Previous Version
+
+If an entry was edited incorrectly, or if you need to revert to a version that was accurate as of a specific date, you can restore any previous version directly from the History tab.
+
+<Steps>
+  <Step title="Open the History Tab">
+    Navigate to the entry and click the **History** tab to view the version list.
+  </Step>
+  <Step title="Select the Version to Restore">
+    Click on the version row you want to restore. A preview panel opens on the right, showing the full content of that version.
+  </Step>
+  <Step title="Click Restore">
+    Click the **Restore** button at the top of the preview panel. A confirmation dialog appears, asking you to confirm the restore and optionally enter a reason.
+  </Step>
+  <Step title="Enter a Restore Reason">
+    Type a brief explanation for the restore — for example, *Reverting incorrect threshold values added in v7* or *Restoring pre-amendment version for Q3 audit reference*. This reason is recorded in the entry's audit trail and is visible to all Admins.
+  </Step>
+  <Step title="Confirm the Restore">
+    Click **Confirm Restore**. LegFi KM creates a new version containing the restored content. The version counter increments — it does not roll back. Your entry's history remains complete and unbroken.
+  </Step>
+</Steps>
+
+<Note>
+  Restoring a previous version always creates a **new version** at the top of the version list — it does not delete or overwrite any existing versions. Version history in LegFi KM is append-only. You can restore a version and then restore again to a different version, and all intermediate steps remain visible in the history.
+</Note>
+
+<Warning>
+  If you restore a previous version of an entry that is currently **Published**, the entry's status will automatically change to **Under Review**. The restored content must go through your workspace's approval workflow before it becomes live again. This safeguard ensures that no content — including restored content — bypasses the review process before reaching your published knowledge base.
+</Warning>
+
+## Version Retention Policy
+
+LegFi KM's version retention policy depends on your subscription plan.
+
+<Tabs>
+  <Tab title="Professional & Enterprise">
+    All versions of every knowledge entry are retained **indefinitely**. There is no limit on version history length, and no versions are automatically deleted. This unlimited retention is designed to satisfy long-term regulatory recordkeeping requirements, including multi-year audit trails under SOX, FINRA, and similar frameworks.
+  </Tab>
+  <Tab title="Free">
+    The Free plan retains the **last 30 versions** of each entry. When a 31st version is saved, the oldest version is permanently removed from the history. If your organization requires comprehensive audit trails, consider upgrading to a Professional or Enterprise plan to ensure no historical versions are lost.
+  </Tab>
+</Tabs>
+
+<Info>
+  Version history counts each save as one version, including minor edits and topic reassignments. If your team saves frequently during drafting, the 30-version limit on the Free plan may be reached more quickly than expected on actively edited entries. You can review the current version count for any entry by opening its History tab and checking the version number of the most recent entry.
+</Info>

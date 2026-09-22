@@ -1,0 +1,162 @@
+---
+title: "Manage Users and Access in LegFi KM"
+sidebarTitle: "User Management"
+description: "Add, remove, and configure team members in LegFi KM with role-based access control and optional SSO for enterprise deployments."
+---
+
+As an Admin, you control who has access to your LegFi KM workspace and what they can do within it. Keeping your user roster accurate and permissions well-defined is essential for maintaining the integrity of your knowledge base and satisfying your organization's access control requirements. All user management tasks are performed from **Settings → Team**.
+
+<Note>
+  Deactivated users are never deleted from LegFi KM. All entries they authored, edits they made, reviews they completed, and audit log entries attributed to them remain fully intact. You can reactivate a deactivated user at any time and their full history is immediately restored.
+</Note>
+
+## Inviting Users
+
+Add new members to your workspace by sending them an email invitation. Invited users receive a link that lets them set their password (or sign in via SSO if enabled) and join your workspace directly.
+
+<Steps>
+  <Step title="Open the Team Settings Page">
+    Navigate to **Settings → Team** and click the **Invite Member** button in the top-right corner.
+  </Step>
+  <Step title="Enter Email Addresses">
+    Type one or more email addresses in the invitation form. Separate multiple addresses with commas or press **Enter** after each one. Each address will receive an individual invitation email.
+  </Step>
+  <Step title="Assign a Role">
+    Select the role you want to assign to the invited users. All invitees in a single invitation batch receive the same role; you can adjust individual roles after they join. See the **Roles and Permissions** section below for a description of each role.
+  </Step>
+  <Step title="Send the Invitation">
+    Click **Invite**. LegFi KM sends an invitation email to each address. The invitation link is valid for **72 hours**. If a recipient does not accept within that window, you can resend the invitation from the **Pending Invitations** tab on the Team page.
+  </Step>
+</Steps>
+
+**Bulk invite via CSV:** If you need to invite more than a handful of users at once, click **Bulk Invite** on the Team page and upload a CSV file. The file must contain at least two columns: `email` and `role`. An optional `name` column pre-fills the user's display name. Download the CSV template from the bulk invite dialog to ensure your file is formatted correctly.
+
+## Roles and Permissions
+
+LegFi KM uses role-based access control to define what each user can create, edit, review, and administer within the workspace.
+
+<Accordion title="Viewer">
+  Viewers have read-only access to published knowledge entries and topics they have been granted access to. They can search the knowledge base, bookmark entries, and download exports. They cannot create, edit, or delete entries, and they cannot participate in review workflows.
+
+  Assign the Viewer role to stakeholders who need to consult the knowledge base but should not contribute to or modify it — for example, executives reviewing regulatory summaries or external auditors during an engagement.
+</Accordion>
+
+<Accordion title="Contributor">
+  Contributors can create new draft entries and edit their own drafts. They can submit entries for review and respond to reviewer comments, but they cannot publish entries directly. They can view any entry in topics they have access to.
+
+  Assign the Contributor role to team members who produce knowledge content — analysts, junior associates, and paralegals who generate first drafts for review by senior staff.
+</Accordion>
+
+<Accordion title="Reviewer">
+  Reviewers have all Contributor permissions, plus the ability to review and approve or reject entries submitted by Contributors. They can leave inline comments, request revisions, and publish approved entries. Reviewers can also edit any entry within their assigned topics.
+
+  Assign the Reviewer role to senior team members responsible for the quality and accuracy of published content — senior compliance officers, counsel, or subject matter experts.
+</Accordion>
+
+<Accordion title="Admin">
+  Admins have full access to all workspace features, including user management, integrations, billing, SSO configuration, and all knowledge entries regardless of topic assignment. There must always be at least one Admin in a workspace.
+
+  Assign the Admin role only to the individuals responsible for managing the LegFi KM workspace — typically your IT or operations lead alongside the primary compliance or legal team lead.
+</Accordion>
+
+## Deactivating Users
+
+When a team member leaves your organization or no longer requires access, deactivate their account immediately to revoke access without removing their content contributions from the workspace.
+
+<Steps>
+  <Step title="Locate the User">
+    Go to **Settings → Team** and find the user in the member list. Use the search box at the top of the list to search by name or email address.
+  </Step>
+  <Step title="Open the User Menu">
+    Click the **⋯** (more options) icon to the right of the user's row to open their action menu.
+  </Step>
+  <Step title="Deactivate the Account">
+    Select **Deactivate** from the menu. A confirmation dialog appears summarizing the action. Click **Confirm Deactivation** to proceed.
+  </Step>
+  <Step title="Confirm Immediate Access Revocation">
+    The user's status changes to **Deactivated** in the member list. If the user is currently logged in, their session is terminated within 60 seconds. All active API tokens associated with that user are also invalidated immediately.
+  </Step>
+</Steps>
+
+**Reactivating a user:** To restore access for a previously deactivated user, go to **Settings → Team**, filter the member list by **Status: Deactivated**, locate the user, and click **⋯ → Reactivate**. Their role, topic assignments, and full history are restored exactly as they were at the time of deactivation.
+
+<Warning>
+  Deactivating a user does not release the seat on your plan immediately. On the Professional plan, the seat count adjusts at the start of your next billing cycle. On the Enterprise plan, seat adjustments are handled according to your contract terms. Contact your account manager if you need an immediate seat count adjustment.
+</Warning>
+
+## Single Sign-On (SSO)
+
+<Info>
+  SSO is an **Enterprise** plan feature. If you are on a lower plan and need SSO for your organization, contact **sales@legfikm.com** to discuss an upgrade.
+</Info>
+
+Single Sign-On allows your team members to authenticate into LegFi KM using your existing Identity Provider (IdP), eliminating the need for a separate LegFi KM password. LegFi KM supports both **SAML 2.0** and **OpenID Connect (OIDC)**.
+
+Configure SSO under **Settings → Security → SSO**.
+
+<Tabs>
+  <Tab title="SAML 2.0">
+    <Steps>
+      <Step title="Retrieve Your LegFi KM Service Provider Metadata">
+        At the top of the SSO settings page, copy your **SP Entity ID** and **ACS URL** (Assertion Consumer Service URL). You will need these when creating the LegFi KM application in your IdP.
+      </Step>
+      <Step title="Create the Application in Your IdP">
+        In your IdP (Okta, Azure AD, OneLogin, or similar), create a new SAML application using the SP Entity ID and ACS URL from the previous step. Assign the application to the users or groups who should have access to LegFi KM.
+      </Step>
+      <Step title="Provide IdP Metadata to LegFi KM">
+        Back in **Settings → Security → SSO**, either paste your IdP's **Metadata URL** into the provided field (LegFi KM fetches and refreshes this automatically) or click **Upload XML** to upload your IdP's metadata XML file directly.
+      </Step>
+      <Step title="Map Attribute Claims">
+        Define how your IdP's assertion attributes map to LegFi KM user fields. At minimum, map the **email** and **name** attributes. Optionally, map a **role** attribute to automatically assign LegFi KM roles based on IdP group membership — for example, mapping the `compliance_leads` group to the Reviewer role.
+      </Step>
+      <Step title="Test the Connection">
+        Click **Test SSO Connection**. LegFi KM initiates a test authentication flow. If the connection is successful, a green confirmation banner appears. If it fails, the error message describes which step failed (metadata fetch, certificate validation, attribute mapping, etc.).
+      </Step>
+      <Step title="Enable SSO">
+        Once the test passes, toggle **Enable SSO** to on. Decide whether to enforce SSO exclusively (preventing password-based login) or allow both SSO and password login during a transition period. Click **Save**.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="OIDC">
+    <Steps>
+      <Step title="Register LegFi KM as an OIDC Client">
+        In your IdP, register a new OIDC application. Set the **Redirect URI** to the value shown on the **Settings → Security → SSO** page under **OIDC Redirect URI**. Note the **Client ID** and **Client Secret** generated by your IdP.
+      </Step>
+      <Step title="Enter OIDC Configuration in LegFi KM">
+        On the SSO settings page, select **OIDC** as the protocol and enter the following values from your IdP:
+        - **Issuer URL** — the base URL of your OIDC provider (e.g., `https://login.microsoftonline.com/{tenant-id}/v2.0`)
+        - **Client ID**
+        - **Client Secret**
+      </Step>
+      <Step title="Map Attribute Claims">
+        Map the OIDC token claims to LegFi KM user fields. Map `email` and `name` at minimum. Optionally, map a custom claim to the LegFi KM `role` field for automated role assignment.
+      </Step>
+      <Step title="Test and Enable">
+        Click **Test SSO Connection** to verify the configuration, then toggle **Enable SSO** to on. Click **Save**.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## User Activity Report
+
+Monitor how your team members are using LegFi KM with the User Activity Report. Use this report to identify highly active contributors, spot inactive accounts that may need deactivation, and satisfy any internal audit requirements around knowledge base usage.
+
+Navigate to **Settings → Reports → User Activity** to access the report.
+
+The report includes the following data for each user over a selected date range:
+
+| Column | Description |
+|---|---|
+| **Last Login** | Date and time of the user's most recent successful authentication. |
+| **Login Count** | Total number of successful logins during the selected period. |
+| **Entries Created** | Number of new knowledge entries the user created as drafts. |
+| **Entries Edited** | Number of entries (including others' entries, if the user has permission) the user edited. |
+| **Reviews Completed** | Number of review decisions (approved or rejected) the user made. |
+| **Comments Posted** | Number of inline review comments the user added. |
+
+Use the **Date Range** selector at the top of the report to filter by a preset period (last 7 days, last 30 days, last 90 days, or a custom range). Click **Export CSV** to download the full report for the selected period.
+
+<Tip>
+  Schedule a monthly review of the User Activity Report to identify accounts with zero logins over the past 30 days. Promptly deactivating unused accounts reduces your attack surface and keeps your licensed seat count accurate.
+</Tip>

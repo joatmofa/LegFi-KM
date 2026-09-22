@@ -1,0 +1,139 @@
+---
+title: "Configure Notifications and Alerts in LegFi KM"
+sidebarTitle: "Notifications"
+description: "Stay on top of knowledge changes, review requests, and expiring entries with LegFi KM's configurable notification system."
+---
+
+LegFi KM sends notifications to keep your team informed about the entries that need attention — review requests, approvals, approaching expiry dates, and content changes. Every notification type is individually configurable, so you can stay on top of what matters to your role without being overwhelmed by alerts that aren't relevant to you.
+
+## Notification Types
+
+LegFi KM generates the following types of notifications. Each can be independently enabled or disabled, and each supports its own delivery channel preference.
+
+<Accordion title="Review Requested">
+  **Sent to:** The assigned Reviewer (or all Reviewers, if no specific assignee is set)
+
+  **Triggered when:** An author submits a knowledge entry for review by clicking **Submit for Review**
+
+  **What it contains:** The entry title, the author's name, any submission note the author included, the due date (if set), and a direct link to the entry in the Review Queue.
+</Accordion>
+
+<Accordion title="Review Completed">
+  **Sent to:** The entry's author
+
+  **Triggered when:** A Reviewer approves an entry or requests changes
+
+  **What it contains:** The reviewer's name, the outcome (Approved or Changes Requested), any comments the reviewer left, and a link back to the entry. If the entry was approved, the notification confirms the entry is now live.
+</Accordion>
+
+<Accordion title="Entry Expiring Soon">
+  **Sent to:** The entry's designated owner (set in Entry Settings → Ownership)
+
+  **Triggered when:** The entry's expiry date is 30, 14, or 7 days away
+
+  **What it contains:** The entry title, the exact expiry date, and a direct link to the entry so the owner can review it, update the content, and extend or remove the expiry date before the entry is automatically archived.
+</Accordion>
+
+<Accordion title="Entry Published">
+  **Sent to:** All users who have subscribed to the topic the entry belongs to
+
+  **Triggered when:** An entry moves from Under Review to Published (via approval) or when a published entry is updated and re-approved
+
+  **What it contains:** The entry title, a one-line excerpt from the entry summary, the topic it belongs to, the approving Reviewer's name, and a direct link to read the full entry.
+</Accordion>
+
+<Accordion title="Comment or Mention">
+  **Sent to:** The mentioned user
+
+  **Triggered when:** Someone uses the `@username` syntax in a review note, a submission note, or an inline comment on an entry
+
+  **What it contains:** The name of the person who mentioned you, the entry they mentioned you on, a snippet of the comment with your mention highlighted, and a link to the entry with the comment thread open.
+</Accordion>
+
+## Configuring Your Notification Preferences
+
+You control your notification preferences from your personal account settings. Changes apply immediately and affect only your account — they do not change notification settings for other users.
+
+<Steps>
+  <Step title="Open Notification Settings">
+    Click your **avatar** or initials in the bottom-left corner of the screen, then select **Notification Settings** from the menu.
+  </Step>
+  <Step title="Toggle Individual Notification Types">
+    You will see a list of all notification types. Use the toggle next to each one to turn it on or off. Disabled notifications are never delivered — neither in-app nor by email.
+  </Step>
+  <Step title="Choose Your Delivery Channel">
+    For each enabled notification type, select a delivery preference from the dropdown:
+    - **In-App only** — Notifications appear in the bell icon (🔔) in the top navigation bar. No email is sent.
+    - **Email only** — Notifications are sent to your registered email address. Nothing appears in the in-app notification center.
+    - **Both** — You receive the notification in-app and by email simultaneously.
+  </Step>
+  <Step title="Save Your Preferences">
+    Click **Save Preferences**. Your changes take effect immediately for all future notifications.
+  </Step>
+</Steps>
+
+<Note>
+  Your administrator can set organization-wide notification defaults for new users, but individual users can always override these defaults from their own Notification Settings page. Admins cannot force-enable notifications on behalf of other users.
+</Note>
+
+## Subscribing to Topics
+
+Topic subscriptions let you receive **Entry Published** notifications whenever any entry within a specific topic is published or updated — without having to be directly involved in the review workflow. This is the most efficient way for analysts and compliance officers to stay current on a particular area of the knowledge base.
+
+<Steps>
+  <Step title="Navigate to the Topic">
+    Use the left navigation panel or the Search bar to find the topic you want to follow — for example, `AML Regulations`, `IFRS Standards`, or `Data Privacy`.
+  </Step>
+  <Step title="Click Subscribe">
+    On the topic's landing page, click the **Subscribe** button in the top-right corner. The button changes to **Subscribed** to confirm your subscription.
+  </Step>
+  <Step title="Receive Entry Published Notifications">
+    From this point on, you receive an **Entry Published** notification whenever a new or updated entry in that topic is approved and goes live. The notification respects the delivery channel you have configured for the Entry Published type in your Notification Settings.
+  </Step>
+</Steps>
+
+<Tip>
+  Subscribe to your most critical regulatory topics — such as `Sanctions Screening`, `Capital Requirements`, or `GDPR Guidance` — so you never miss a compliance update. When a reviewer approves new guidance in a subscribed topic, you'll know about it immediately rather than discovering it during your next manual search.
+</Tip>
+
+**Unsubscribing from a topic:**
+
+To stop receiving notifications for a topic, navigate back to the topic page and click **Subscribed**. The button reverts to **Subscribe** and you will no longer receive Entry Published notifications for that topic.
+
+## Email Digest
+
+If you prefer a quieter inbox, enable the **Daily Digest** to consolidate all your email notifications into a single daily summary rather than receiving individual emails throughout the day.
+
+<Tabs>
+  <Tab title="Enabling the Daily Digest">
+    <Steps>
+      <Step title="Open Notification Settings">
+        Click your avatar → **Notification Settings**.
+      </Step>
+      <Step title="Enable Daily Digest">
+        Scroll to the **Email Digest** section and toggle **Daily Digest** to on.
+      </Step>
+      <Step title="Set Your Delivery Time">
+        Use the **Deliver at** time picker to choose when the digest email is sent each day — for example, `08:00 AM` in your local timezone. LegFi KM automatically detects your timezone from your account settings; adjust it under **Account → Timezone** if needed.
+      </Step>
+      <Step title="Save">
+        Click **Save Preferences**. Starting the following day, you will receive a single email at your chosen time covering all activity from the previous 24 hours.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="What the Digest Contains">
+    The daily digest email groups activity into clear sections:
+
+    - **Review Queue** — entries awaiting your review, with overdue items listed first
+    - **My Entries** — status updates on entries you authored (approved, changes requested)
+    - **Expiring Entries** — entries you own that are approaching their expiry date
+    - **Topic Updates** — new or updated entries published in topics you subscribe to
+    - **Mentions** — comments or notes where you were @mentioned
+
+    Each item includes the entry title, a brief description of the event, and a direct link into LegFi KM. The digest only includes items you have the corresponding notification type enabled for — if you have disabled **Entry Expiring Soon**, those items will not appear in the digest.
+  </Tab>
+</Tabs>
+
+<Note>
+  Enabling the Daily Digest changes email delivery for all notification types from immediate to batched. In-app notifications continue to arrive in real time regardless of your digest setting. If you need certain high-priority alerts delivered immediately by email — such as overdue review reminders — keep those specific notification types set to **Email only** or **Both** outside the digest setting.
+</Note>

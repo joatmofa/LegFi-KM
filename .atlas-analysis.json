@@ -1,13 +1,11 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
-  "name": "LegFi KM",
+  "projectType": "saas",
+  "projectName": "LegFi KM",
+  "projectDescription": "A financial and legal knowledge management platform that helps organizations capture, organize, and retrieve critical regulatory, compliance, and legal information.",
   "theme": "maple",
-  "colors": {
-    "primary": "#ef7025",
-    "light": "#eec9bc",
-    "dark": "#4fa1ab"
-  },
-  "favicon": "/favicon.svg",
+  "primaryColor": "#ef7025",
+  "lightColor": "#eec9bc",
+  "darkColor": "#4fa1ab",
   "navigation": {
     "tabs": [
       {
@@ -81,11 +79,25 @@
       }
     ]
   },
-  "navbar": {
-    "primary": {
-      "type": "button",
-      "label": "Get Started",
-      "href": "/quickstart"
-    }
-  }
+  "keyFeatures": [
+    "Centralized knowledge repository for financial and legal content",
+    "Structured taxonomy for regulatory and compliance documents",
+    "Full-text search with filters for legal and financial topics",
+    "Version-controlled document management with audit trails",
+    "Role-based access control for sensitive information",
+    "Collaborative review and approval workflows",
+    "Integrations with legal and financial data sources",
+    "Compliance tracking and reporting dashboards"
+  ],
+  "publicApiSurface": [
+    "GET /api/v1/entries — list knowledge entries",
+    "POST /api/v1/entries — create a knowledge entry",
+    "GET /api/v1/entries/{id} — retrieve a specific entry",
+    "PUT /api/v1/entries/{id} — update an entry",
+    "DELETE /api/v1/entries/{id} — delete an entry",
+    "GET /api/v1/topics — list topics/categories",
+    "GET /api/v1/search?q= — full-text search",
+    "GET /api/v1/users — list users (admin only)",
+    "POST /api/v1/auth/token — obtain API token"
+  ]
 }

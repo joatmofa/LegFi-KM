@@ -1,0 +1,114 @@
+---
+title: "Organizing Legal Documents and Contracts"
+sidebarTitle: "Legal Documents"
+description: "Store, version, and manage legal documents, contracts, and precedents in LegFi KM with structured approval workflows and access controls."
+---
+
+LegFi KM provides a structured, version-controlled home for the full range of legal knowledge your team depends on — from contract templates and court precedents to regulatory filings and internal policies. Unlike a shared drive or email thread, every entry in LegFi KM is tracked, versioned, access-controlled, and tied to an approval workflow, so your legal team always knows which version is authoritative, who approved it, and when it was last reviewed.
+
+<Note>
+  LegFi KM stores the text content of legal documents, not binary file attachments. If you need to manage Word documents, PDFs, or other binary files alongside your knowledge entries, connect a file storage integration under **Settings → Integrations** to link your SharePoint or Google Drive libraries. Entries can then include a direct link to the corresponding file in your connected storage.
+</Note>
+
+## Document Types to Manage
+
+LegFi KM is well suited to the following categories of legal content. Use this list as a starting point when planning your topic hierarchy and entry templates.
+
+<CardGroup cols={2}>
+  <Card title="Contract Templates" icon="file-contract">
+    Standardized templates for NDAs, Master Service Agreements (MSAs), Statements of Work (SOWs), licensing agreements, and vendor contracts. Store the canonical text and flag deviations in the review notes.
+  </Card>
+  <Card title="Legal Opinions" icon="scale-balanced">
+    Internal and external counsel opinions on regulatory interpretation, transaction structures, and litigation risk. Version-track every revision and record the approving partner or counsel.
+  </Card>
+  <Card title="Court Precedents" icon="gavel">
+    Summaries and citations of relevant case law organized by jurisdiction and practice area. Include the full case citation, decision date, key holding, and implications for your business.
+  </Card>
+  <Card title="Regulatory Filings" icon="building-columns">
+    Records of filings submitted to regulators (SEC, FINRA, FCA) including filing type, submission date, status, and links to the related compliance entries.
+  </Card>
+  <Card title="Internal Policies" icon="shield-check">
+    Legal department policies such as contract approval thresholds, outside counsel guidelines, litigation holds, and records retention schedules.
+  </Card>
+  <Card title="Transaction Records" icon="handshake">
+    Closed deal summaries, term sheets, and post-execution notes for significant transactions. Useful for precedent research and due diligence support.
+  </Card>
+</CardGroup>
+
+## Recommended Topic Structure
+
+A predictable topic hierarchy makes it easy for attorneys, paralegals, and business teams to find the right document quickly. The following structure works well for most legal teams:
+
+```
+Legal > Contracts > NDA
+Legal > Contracts > MSA
+Legal > Contracts > SOW
+Legal > Contracts > Licensing
+Legal > Opinions
+Legal > Opinions > Tax
+Legal > Opinions > Securities
+Legal > Filings > US > SEC
+Legal > Filings > UK > FCA
+Legal > Policies > Records Retention
+Legal > Policies > Outside Counsel Guidelines
+Legal > Precedents > US Federal
+Legal > Precedents > EU
+```
+
+Create this hierarchy in **Knowledge Base → Topics** before you begin adding entries. Use the **Add Subtopic** button on any topic to extend the tree. Once established, you can pin frequently used topics to your sidebar using the star icon on the topic page, so your team reaches the most common document categories in one click.
+
+<Tip>
+  Create a dedicated `Legal > Templates > Active` and `Legal > Templates > Archived` split so superseded contract templates are never deleted but are clearly separated from templates that are currently in use. Apply the `Archived` tag to retired templates so they surface in searches but are visually distinguished.
+</Tip>
+
+## Controlling Access to Sensitive Documents
+
+Not all legal content should be accessible to every user in your workspace. LegFi KM offers Entry-Level Permissions (available on Professional and Enterprise plans) so you can restrict visibility of a specific entry beyond what the user's role would normally allow.
+
+<Steps>
+  <Step title="Open the entry settings">
+    Navigate to the entry you want to restrict and click **Settings** in the top-right toolbar.
+  </Step>
+  <Step title="Go to the Access panel">
+    Select **Access** from the settings sidebar. By default, the entry inherits permissions from its parent topic and your workspace role settings.
+  </Step>
+  <Step title="Override inherited permissions">
+    Toggle **Override topic permissions** to enable entry-level control. This does not change any other entry in the topic — only the entry you are editing.
+  </Step>
+  <Step title="Add specific users or teams">
+    In the **Who can view** field, search for individual users or named teams (e.g. the M&A Legal team or the CFO). Only users you add here — plus workspace Admins — will be able to open this entry.
+  </Step>
+  <Step title="Set edit permissions separately">
+    Use the **Who can edit** field to grant edit rights to a narrower set of users, such as the lead attorney on the matter, while keeping broader read access for the rest of the legal team.
+  </Step>
+  <Step title="Save and confirm">
+    Click **Save Permissions**. A lock icon will appear on the entry card in the topic view, indicating that entry-level permissions are active.
+  </Step>
+</Steps>
+
+<Warning>
+  Entry-level permissions restrict who can view an entry, but they do not prevent workspace Admins from accessing it. If your organization requires strict privilege controls — for example, attorney-client privileged materials — consult your IT and compliance teams to confirm that Admin access aligns with your privilege policies before storing such materials in LegFi KM.
+</Warning>
+
+## Linking Related Documents
+
+Legal documents rarely stand alone. An NDA references its governing law clause; a regulatory filing corresponds to a compliance policy; a contract template has a companion legal opinion. LegFi KM's Related Entries feature lets you make these connections explicit and navigable.
+
+To link two entries:
+
+<Steps>
+  <Step title="Open the source entry in edit mode">
+    Navigate to the entry you want to link from (for example, a specific executed NDA) and click **Edit**.
+  </Step>
+  <Step title="Insert a related entry link">
+    In the body editor, place your cursor where you want the reference to appear, then click **Insert → Related Entry** in the toolbar. Search for the target entry by title or topic — for example, the NDA template this specific agreement is derived from.
+  </Step>
+  <Step title="Choose the link type">
+    Select the relationship type from the dropdown: **Derived From**, **Related To**, **Supersedes**, or **See Also**. Choosing the correct type helps teammates understand the nature of the relationship at a glance.
+  </Step>
+  <Step title="Save the entry">
+    Click **Save** or **Submit for Review** as appropriate. The linked entry now appears as a card in the **Related** sidebar panel on both entries — the link is bidirectional by default.
+  </Step>
+</Steps>
+
+Related links in the sidebar display the linked entry's title, topic path, status badge, and last-reviewed date, so reviewers can immediately assess whether a related document is current without leaving the entry they are reading.

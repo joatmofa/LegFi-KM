@@ -1,0 +1,225 @@
+---
+title: "REST API Endpoints for User Management"
+sidebarTitle: "Users"
+description: "List and manage workspace users via the LegFi KM REST API. Admin-only endpoints for user provisioning and role management."
+---
+
+The Users API lets Admins list workspace members and manage their roles programmatically — useful for syncing with your corporate directory, automating onboarding and offboarding, or auditing access as part of a compliance review. Most endpoints on this page require an Admin token. The one exception is `GET /users/me`, which any authenticated user can call to verify their own identity and role. The base URL for all endpoints is `https://api.legfikm.com/v1`.
+
+<Warning>
+  All Users API endpoints except `GET /users/me` require an **Admin** token. Requests made with a Viewer, Editor, or Reviewer token will receive a `403 Forbidden` response. Ensure your API token belongs to an Admin account before calling these endpoints from automated workflows.
+</Warning>
+
+---
+
+## GET /users
+
+Retrieve a paginated list of all users in the workspace. Use the `role` and `status` filters to segment your user list — for example, to audit all active Editors or identify deactivated accounts.
+
+### Query Parameters
+
+<ParamField query="role" type="string">
+  Filter users by role. Accepted values: `viewer`, `editor`, `reviewer`, `admin`. Omit to return users across all roles.
+</ParamField>
+
+<ParamField query="status" type="string">
+  Filter users by account status. Accepted values: `active`, `deactivated`. Omit to return users regardless of status.
+</ParamField>
+
+<ParamField query="page" type="integer" default="1">
+  The page number to retrieve for paginated results.
+</ParamField>
+
+<ParamField query="per_page" type="integer" default="20">
+  Number of user records to return per page. Maximum value is `100`.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X GET 'https://api.legfikm.com/v1/users?role=editor&status=active&page=1&per_page=20' \
+  -H "Authorization: Bearer YOUR_ADMIN_API_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "usr_9fj2kl3mn4op5qr",
+      "email": "sarah.chen@example.com",
+      "name": "Sarah Chen",
+      "role": "editor",
+      "status": "active",
+      "created_at": "2023-09-14T08:00:00Z",
+      "last_login_at": "2024-12-09T16:42:11Z"
+    },
+    {
+      "id": "usr_4ab7cd8ef9gh0ij",
+      "email": "james.okafor@example.com",
+      "name": "James Okafor",
+      "role": "editor",
+      "status": "active",
+      "created_at": "2023-11-02T10:30:00Z",
+      "last_login_at": "2024-12-08T09:15:03Z"
+    }
+  ],
+  "meta": {
+    "total": 12,
+    "page": 1,
+    "per_page": 20
+  }
+}
+```
+
+---
+
+## GET /users/{id}
+
+Retrieve the profile of a single workspace user by their unique ID. Returns full user details including role, status, and login history.
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the user to retrieve (e.g., `usr_9fj2kl3mn4op5qr`).
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X GET 'https://api.legfikm.com/v1/users/usr_9fj2kl3mn4op5qr' \
+  -H "Authorization: Bearer YOUR_ADMIN_API_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "data": {
+    "id": "usr_9fj2kl3mn4op5qr",
+    "email": "sarah.chen@example.com",
+    "name": "Sarah Chen",
+    "role": "editor",
+    "status": "active",
+    "created_at": "2023-09-14T08:00:00Z",
+    "last_login_at": "2024-12-09T16:42:11Z"
+  }
+}
+```
+
+---
+
+## GET /users/me
+
+Retrieve the profile of the authenticated user associated with the Bearer token making the request. Use this endpoint to verify token identity, confirm role assignments, or check account status from an integration without needing an Admin token.
+
+### Example Request
+
+```bash
+curl -X GET 'https://api.legfikm.com/v1/users/me' \
+  -H "Authorization: Bearer YOUR_API_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "data": {
+    "id": "usr_4ab7cd8ef9gh0ij",
+    "email": "james.okafor@example.com",
+    "name": "James Okafor",
+    "role": "reviewer",
+    "status": "active",
+    "created_at": "2023-11-02T10:30:00Z",
+    "last_login_at": "2024-12-10T08:55:00Z"
+  }
+}
+```
+
+---
+
+## PUT /users/{id}
+
+Update a workspace user's role or account status. Use this endpoint to promote a Viewer to an Editor, assign a Reviewer role before a scheduled review cycle, or deactivate an account when a team member leaves the organization. Admin token required.
+
+<Note>
+  `PUT /users/{id}` updates existing accounts only — it does not create new users. To invite a new team member to your LegFi KM workspace, use the **Invite Members** flow in the workspace settings UI. A future API invite endpoint is planned for a subsequent release.
+</Note>
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the user whose profile you want to update.
+</ParamField>
+
+### Body Parameters
+
+<ParamField body="role" type="string">
+  Updated role for the user. Accepted values: `viewer`, `editor`, `reviewer`, `admin`. Changing a user's role takes effect immediately on their next API or UI request.
+</ParamField>
+
+<ParamField body="status" type="string">
+  Updated account status. Accepted values: `active`, `deactivated`. Deactivating a user immediately revokes their access to the workspace and invalidates all active API tokens issued to that account.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X PUT 'https://api.legfikm.com/v1/users/usr_9fj2kl3mn4op5qr' \
+  -H "Authorization: Bearer YOUR_ADMIN_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "role": "reviewer"
+  }'
+```
+
+### Example Response
+
+```json
+{
+  "data": {
+    "id": "usr_9fj2kl3mn4op5qr",
+    "email": "sarah.chen@example.com",
+    "name": "Sarah Chen",
+    "role": "reviewer",
+    "status": "active",
+    "created_at": "2023-09-14T08:00:00Z",
+    "last_login_at": "2024-12-09T16:42:11Z"
+  }
+}
+```
+
+---
+
+## User Object Schema
+
+The following fields appear on user objects returned across all `/users` endpoints.
+
+<ResponseField name="id" type="string">
+  Unique identifier for the user, prefixed with `usr_`.
+</ResponseField>
+
+<ResponseField name="email" type="string">
+  The user's registered email address. Used as the primary login identifier and the target for notification emails.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The user's display name as set in their profile settings.
+</ResponseField>
+
+<ResponseField name="role" type="string">
+  The user's current role in the workspace. One of `viewer`, `editor`, `reviewer`, or `admin`. Roles control which entries a user can read, create, edit, review, and delete.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The user's current account status. Either `active` (can log in and access the workspace) or `deactivated` (access revoked, all tokens invalidated).
+</ResponseField>
+
+<ResponseField name="created_at" type="string">
+  ISO 8601 timestamp indicating when the user account was created in the workspace.
+</ResponseField>
+
+<ResponseField name="last_login_at" type="string">
+  ISO 8601 timestamp of the user's most recent successful login. Useful for identifying inactive accounts during access reviews.
+</ResponseField>

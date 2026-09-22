@@ -1,0 +1,134 @@
+---
+title: "Managing Financial Records and Policies"
+sidebarTitle: "Financial Records"
+description: "Centralize financial policies, accounting standards references, and procedural documentation in LegFi KM for consistent application."
+---
+
+Finance teams frequently struggle with policy fragmentation — accounting guidance lives in one shared drive, IFRS references are bookmarked across a dozen browsers, and SOX control descriptions exist only in a spreadsheet that was last updated two years ago. LegFi KM gives your finance team a single source of truth for accounting policies, GAAP and IFRS standards references, treasury procedures, and internal controls. Every entry is versioned, reviewed, and traceable, so you can demonstrate consistent policy application to auditors and respond to questions from regulators with confidence.
+
+## Financial Content Categories
+
+Before building your topic hierarchy, identify the categories of financial content your team produces and consumes most often. The following categories cover the needs of most finance and accounting organizations:
+
+<Tabs>
+  <Tab title="Accounting Policies">
+    Internal policies that govern how your organization applies accounting standards. Common examples include:
+
+    - **Revenue Recognition** — criteria for recognizing revenue under ASC 606 / IFRS 15, including treatment of variable consideration, contract modifications, and principal vs. agent determinations
+    - **Depreciation and Amortization** — useful life tables, depreciation methods by asset class, and impairment testing triggers
+    - **Foreign Exchange (FX)** — functional currency determinations, transaction date vs. period-end rate elections, and hedge accounting designations
+    - **Lease Accounting** — criteria for operating vs. finance lease classification under ASC 842 / IFRS 16
+    - **Consolidation** — criteria for determining whether an entity is consolidated, equity-method, or cost-method
+  </Tab>
+  <Tab title="Standards References">
+    Summaries, interpretations, and application guidance for external accounting standards. These entries help your team apply authoritative literature without returning to the full standard for every transaction:
+
+    - IFRS 15 — Revenue from Contracts with Customers
+    - IFRS 9 — Financial Instruments
+    - IFRS 16 — Leases
+    - ASC 606 — Revenue from Contracts with Customers (US GAAP)
+    - ASC 842 — Leases (US GAAP)
+    - ASC 820 — Fair Value Measurement (US GAAP)
+
+    For each standard, capture the key principles, your organization's elections and policy choices, and links to the authoritative source on the IASB or FASB website.
+  </Tab>
+  <Tab title="Treasury Procedures">
+    Step-by-step operational procedures for treasury functions. Documenting these as knowledge entries ensures consistency when staff turns over and provides evidence of controls for auditors:
+
+    - Cash positioning and daily liquidity reporting
+    - Bank account opening, closure, and signatory changes
+    - Investment policy compliance monitoring
+    - Intercompany funding and settlement procedures
+    - Foreign currency hedging execution and documentation
+  </Tab>
+  <Tab title="Internal Controls (SOX)">
+    Your SOX controls library, including control descriptions, control owners, frequency, evidence requirements, and testing results. Organizing controls in LegFi KM alongside the policies they relate to creates a connected view of your control environment:
+
+    - Financial close controls (journal entry review, account reconciliation)
+    - Revenue controls (contract-to-cash, cut-off testing)
+    - Procure-to-pay controls (PO matching, payment approval)
+    - IT general controls (access provisioning, change management) linked to financial processes
+  </Tab>
+</Tabs>
+
+<Tip>
+  Keep individual financial policy entries focused and concise — one policy decision or procedure per entry. If a policy requires extensive supporting detail (worked examples, decision trees, large tables), create a second entry for the supporting material and link it to the primary policy entry using the **Related Entry** feature. Shorter, focused entries are easier to review, easier to keep current, and easier for colleagues to find and apply quickly.
+</Tip>
+
+## Recommended Topic Structure
+
+The following topic hierarchy balances breadth and depth for a typical finance and accounting knowledge base. Build it in **Knowledge Base → Topics** using the **Add Subtopic** action.
+
+```
+Finance > Accounting Policies > Revenue Recognition
+Finance > Accounting Policies > Depreciation & Amortization
+Finance > Accounting Policies > Foreign Exchange
+Finance > Accounting Policies > Leases
+Finance > Accounting Policies > Consolidation
+Finance > Standards > IFRS
+Finance > Standards > IFRS > IFRS 9
+Finance > Standards > IFRS > IFRS 15
+Finance > Standards > IFRS > IFRS 16
+Finance > Standards > US GAAP
+Finance > Standards > US GAAP > ASC 606
+Finance > Standards > US GAAP > ASC 842
+Finance > Treasury > Cash Management
+Finance > Treasury > FX & Hedging
+Finance > Controls > Financial Close
+Finance > Controls > Revenue
+Finance > Controls > Procure to Pay
+```
+
+Apply consistent naming conventions from the start — use full standard numbers (e.g. `IFRS 15`, not `Rev Rec`) so that entries are immediately identifiable in search results and report exports.
+
+## Linking to Authoritative Sources
+
+Financial policy entries are most valuable when they connect your internal positions directly to the authoritative external sources that support them. LegFi KM's link editor lets you embed external references in the body of any entry.
+
+<Steps>
+  <Step title="Identify the authoritative source">
+    For IFRS standards, the primary source is the IASB website (ifrs.org). For US GAAP, use the FASB Accounting Standards Codification (asc.fasb.org). For SEC rules, use the SEC's Electronic Code of Federal Regulations (ecfr.gov) or the SEC's official rule release pages.
+  </Step>
+  <Step title="Insert an external link">
+    In the entry body, highlight the text you want to hyperlink (for example, *IFRS 15.31*), then click the **Link** icon in the editor toolbar. Paste the URL of the relevant standard or paragraph.
+  </Step>
+  <Step title="Mark the link as External">
+    In the link editor dialog, check the **Mark as External Source** option. This applies an **External** badge to the link in the rendered entry, visually distinguishing primary-source references from internal cross-links and making it easy for reviewers to locate the supporting authority.
+  </Step>
+  <Step title="Add a source note">
+    Below the link, add a brief inline note with the source name and paragraph reference — for example: *Source: IASB, IFRS 15 paragraph 31 (effective 1 January 2018)*. This ensures the citation remains useful even if the external URL changes over time.
+  </Step>
+</Steps>
+
+<Info>
+  External links in LegFi KM are not monitored automatically for broken URLs. Schedule a periodic review of your key standards reference entries — at least annually — to confirm that external links still resolve to the correct source document, especially after regulatory bodies update their web properties.
+</Info>
+
+## Periodic Review Cadence
+
+Financial policies must be reviewed when accounting standards change, when your organization's business model evolves, or on a fixed schedule aligned to your fiscal year close. LegFi KM's expiry date and review reporting features let you manage this cadence systematically rather than relying on calendar reminders or individual memory.
+
+**Setting expiry dates aligned to your fiscal year**
+
+When creating or editing a financial policy entry, navigate to **Settings → Review Schedule** and set an expiry date that falls shortly before your fiscal year-end close. For example, if your fiscal year ends December 31, set expiry dates in late October or November so that reviews complete and updated policies publish before the close process begins.
+
+For standards reference entries, align expiry dates to the IASB and FASB annual improvement cycle — typically mid-year — so your summaries reflect the latest amendments before they affect your next reporting period.
+
+**Using the Due for Review report**
+
+Navigate to **Reports → Due for Review** to see every entry in your workspace that expires within a configurable window. Select the **30 days**, **60 days**, or **90 days** view depending on your planning horizon. The report shows:
+
+| Column | Description |
+|--------|-------------|
+| Entry Title | Name of the entry due for review |
+| Topic | Full topic path |
+| Expiry Date | The date the entry expires |
+| Assigned Owner | The user responsible for the review |
+| Days Remaining | Calculated days until expiry |
+| Current Status | Draft, In Review, or Published |
+
+Filter by topic to focus on a specific area — for example, show only `Finance > Controls` entries ahead of your SOX testing window. Export the report as CSV to share with your controller or audit committee as evidence of proactive policy governance.
+
+<Warning>
+  An expired entry in LegFi KM does not become inaccessible, but it displays a prominent **Expired** banner to all readers and is flagged in the Compliance Report. Resolve expired entries promptly to avoid confusion during audits or when colleagues reference policies for day-to-day decisions.
+</Warning>

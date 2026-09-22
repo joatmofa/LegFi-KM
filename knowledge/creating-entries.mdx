@@ -1,0 +1,84 @@
+---
+title: "Creating and Managing Knowledge Entries"
+sidebarTitle: "Creating Entries"
+description: "Learn how to create, edit, tag, and publish knowledge entries in LegFi KM to build your organization's knowledge base."
+---
+
+Knowledge entries are the core unit of information in LegFi KM. Every regulatory guidance note, legal interpretation, compliance procedure, or financial policy your team captures lives as an entry — searchable, versioned, and governed by your organization's approval workflows. Building a well-maintained library of entries gives your team a single source of truth they can rely on during audits, due diligence, and day-to-day decision-making.
+
+## Creating a New Entry
+
+<Steps>
+  <Step title="Navigate to Knowledge > New Entry">
+    From the left sidebar, click **Knowledge**, then select **New Entry** in the top-right corner of the knowledge list view.
+  </Step>
+  <Step title="Enter a Title">
+    Type a descriptive title in the **Title** field. Titles are required and must be no longer than 200 characters. Choose a title that clearly identifies the subject — for example, *SEC Regulation S-K Item 303 — MD&A Disclosure Requirements*.
+  </Step>
+  <Step title="Write the Entry Body">
+    Use the rich-text editor to compose the entry body. The editor supports:
+    - **Headings** (H1–H4) for structuring long entries
+    - **Tables** for comparing requirements, thresholds, or jurisdictions
+    - **Code blocks** for referencing statutory citations or formula notation
+    - **Hyperlinks** for linking to source documents or external regulatory portals
+
+    Write clearly and concisely. Avoid internal jargon that future team members may not recognize.
+  </Step>
+  <Step title="Assign Topics">
+    In the **Topics** panel on the right, select one or more topics that classify this entry. You can assign multiple topics if the entry spans several areas — for instance, an entry about XBRL tagging might belong to both *SEC Reporting* and *Financial Statements*. See [Organizing Content with Topics and Tags](/knowledge/organizing-content) for guidance on your topic hierarchy.
+  </Step>
+  <Step title="Set an Expiry Date (Optional)">
+    If the entry covers time-sensitive content — such as a regulation under a pending amendment or a temporary compliance waiver — expand the **Advanced** section and set an **Expiry Date**. The entry will be flagged for review when that date arrives.
+  </Step>
+  <Step title="Save as Draft">
+    Click **Save as Draft** to store the entry without publishing it. Your entry is now visible to you and Admins, but not yet available to the broader workspace. You can continue editing before submitting for review.
+  </Step>
+</Steps>
+
+<Tip>
+  Use expiry dates for any entry that references regulations, thresholds, or deadlines that change on an annual basis — such as IRS contribution limits, inflation-adjusted filing thresholds, or year-specific reporting deadlines. Setting an expiry ensures these entries surface for review before they become outdated.
+</Tip>
+
+## Entry Status Lifecycle
+
+Every knowledge entry moves through a defined set of statuses as it progresses from initial drafting to publication. Understanding this lifecycle helps you know what action is expected of you at each stage.
+
+| Status | Who Can See It | Description |
+|---|---|---|
+| **Draft** | Author and Admins only | The entry is being written and has not been submitted for review. It is invisible to other workspace members. |
+| **Under Review** | Author, Reviewers, and Admins | The author has submitted the entry for approval. Assigned reviewers can read, comment on, and approve or reject the entry. |
+| **Published** | All workspace members with topic access | The entry has been approved and is visible in search results and topic listings. It represents the current, authoritative version. |
+| **Archived** | Admins only | The entry is no longer active. It is hidden from search results and topic listings, but its full history is preserved and readable by Admins. |
+
+To move an entry from **Draft** to **Under Review**, open the entry and click **Submit for Review**. The review and approval process is configured by your workspace Admin — see the Workflows documentation for details.
+
+## Editing an Entry
+
+You can edit any entry you have write access to, regardless of its current status (with the exception of Archived entries, which are read-only).
+
+To edit an entry:
+
+1. Locate the entry in any list view or via search and click its title to open it.
+2. Click the **Edit** button in the top-right corner of the entry view.
+3. Make your changes in the title, body, topics, or expiry date fields.
+4. Click **Save**. LegFi KM automatically creates a new version each time you save, preserving the previous state of the entry in its version history.
+
+You do not need to manually manage version numbers. Every save is timestamped and attributed to your user account, giving your team a complete audit trail of who changed what and when.
+
+<Note>
+  If an entry is currently **Published**, saving a new edit will move its status back to **Under Review** so that changes can be re-approved before going live again. This ensures no unreviewed changes reach your published knowledge base.
+</Note>
+
+## Archiving and Deleting
+
+LegFi KM gives you two distinct ways to remove an entry from active circulation, with very different consequences.
+
+**Archiving** an entry hides it from search results and topic listings, but keeps the full entry — including all versions and audit history — intact in the system. Archiving is reversible: an Admin can restore an archived entry to Published status at any time. Use archiving when a policy or regulation has been superseded but you want to retain the historical record.
+
+To archive an entry, open it and select **Archive** from the **Actions** menu. You will be prompted to confirm and optionally enter a reason for archiving.
+
+**Deleting** an entry permanently removes it from LegFi KM, including all versions and audit history. Deletion is restricted to users with the Admin role and cannot be undone.
+
+<Warning>
+  Deleting an entry is permanent and irreversible. All versions, comments, and audit history associated with the entry are destroyed. Before deleting, consider whether archiving better serves your needs — archived entries preserve the historical record while removing the entry from active use. If you are unsure, contact your workspace Admin before proceeding.
+</Warning>

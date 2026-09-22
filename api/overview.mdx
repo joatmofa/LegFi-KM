@@ -1,0 +1,137 @@
+---
+title: "LegFi KM REST API Reference Overview"
+sidebarTitle: "Overview"
+description: "The LegFi KM REST API lets you create, read, update, and search knowledge entries programmatically. Base URL, versioning, and response formats explained."
+---
+
+The LegFi KM REST API gives you programmatic access to your organization's entire knowledge base. Use it to integrate knowledge management into your existing compliance tools, automate content ingestion workflows, synchronize entries with external document systems, and build custom reporting dashboards — all without leaving the applications your teams already use.
+
+## Base URL
+
+All API endpoints are relative to the following base URL:
+
+```
+https://api.legfikm.com/v1
+```
+
+Every request you make must begin with this prefix. For example, to list knowledge entries, you send a request to `https://api.legfikm.com/v1/entries`. Do not omit the version segment — requests to `https://api.legfikm.com/entries` will not resolve.
+
+## API Versioning
+
+The current stable version of the LegFi KM API is **v1**, reflected directly in the URL path. This approach ensures that your integrations remain stable even as the platform evolves.
+
+When we introduce breaking changes — such as removed fields, renamed parameters, or altered response structures — we release a new major version (e.g., `v2`) and continue to support the previous version for **12 months** from the announcement date. You will receive deprecation notices via email and through the in-app notification center before any version is sunset.
+
+<Note>
+  Non-breaking additions — such as new optional fields or new endpoints — may be added to the current version at any time. Build your integrations to gracefully ignore unrecognized fields in responses.
+</Note>
+
+## Request Format
+
+All requests to the LegFi KM API must include the `Content-Type: application/json` header, and all request bodies must be valid JSON. Requests that omit this header or submit malformed JSON will receive a `400 invalid_request` error.
+
+```bash
+curl -X POST https://api.legfikm.com/v1/entries \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "AML Policy — Customer Due Diligence",
+    "topic_id": "topic_7f3a9b",
+    "body": "This entry outlines the customer due diligence requirements..."
+  }'
+```
+
+## Response Format
+
+Every API response returns JSON. Successful responses wrap the primary resource or collection in a `data` key. All responses — including errors — also include a `meta` object containing a unique `request_id` (useful when contacting support) and a server-side `timestamp`.
+
+```json
+{
+  "data": {
+    "id": "entry_c8d2f1",
+    "title": "AML Policy — Customer Due Diligence",
+    "topic_id": "topic_7f3a9b",
+    "status": "draft",
+    "created_at": "2024-03-15T14:22:00Z"
+  },
+  "meta": {
+    "request_id": "req_abc123",
+    "timestamp": "2024-03-15T14:22:00Z"
+  }
+}
+```
+
+List endpoints return `data` as an array and include a `pagination` block inside `meta`:
+
+```json
+{
+  "data": [ { "id": "entry_c8d2f1", "title": "AML Policy — Customer Due Diligence" } ],
+  "meta": {
+    "request_id": "req_def456",
+    "timestamp": "2024-03-15T14:23:00Z",
+    "pagination": {
+      "page": 1,
+      "per_page": 25,
+      "total": 142,
+      "total_pages": 6
+    }
+  }
+}
+```
+
+Error responses replace `data` with an `error` object:
+
+```json
+{
+  "error": {
+    "code": "validation_error",
+    "message": "The 'title' field must not exceed 255 characters.",
+    "field": "title"
+  },
+  "meta": {
+    "request_id": "req_ghi789",
+    "timestamp": "2024-03-15T14:24:00Z"
+  }
+}
+```
+
+## Rate Limiting
+
+The LegFi KM API enforces per-minute rate limits based on your subscription plan. If you exceed your limit, all subsequent requests return `429 rate_limited` until the current window resets.
+
+| Plan         | Request Limit      |
+|--------------|--------------------|
+| Free         | 60 requests / min  |
+| Professional | 300 requests / min |
+| Enterprise   | 1,000 requests / min (configurable — contact your account manager) |
+
+Every API response includes the following headers so you can monitor your consumption in real time:
+
+| Header                  | Description                                                                 |
+|-------------------------|-----------------------------------------------------------------------------|
+| `X-RateLimit-Limit`     | The maximum number of requests allowed in the current window                |
+| `X-RateLimit-Remaining` | The number of requests you have left before the window resets               |
+| `X-RateLimit-Reset`     | A Unix timestamp indicating when the current rate limit window expires      |
+
+<Tip>
+  If you are running batch operations — such as bulk-importing entries — use the `X-RateLimit-Remaining` header to throttle your requests dynamically and avoid hitting the limit mid-job.
+</Tip>
+
+## Error Codes
+
+All error responses follow the same structure. The `code` field provides a machine-readable identifier you can use for programmatic error handling, while `message` provides a human-readable explanation.
+
+| HTTP Status | Code String          | Meaning                                                              |
+|-------------|----------------------|----------------------------------------------------------------------|
+| `400`       | `invalid_request`    | The request body is malformed JSON or is missing a required field    |
+| `401`       | `unauthorized`       | The `Authorization` header is missing or the token is invalid        |
+| `403`       | `forbidden`          | The token is valid but lacks the permission required for this action |
+| `404`       | `not_found`          | The requested resource does not exist or has been deleted            |
+| `409`       | `conflict`           | An entry already exists with the same slug in this topic             |
+| `422`       | `validation_error`   | A field value is present but fails a validation rule (e.g., too long, invalid enum value) |
+| `429`       | `rate_limited`       | You have exceeded the request limit for your current plan            |
+| `500`       | `server_error`       | An unexpected error occurred on our servers — please contact support with your `request_id` |
+
+<Note>
+  For full details on obtaining your API token and passing it correctly in every request, see the [Authentication](/api/authentication) guide.
+</Note>

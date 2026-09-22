@@ -1,0 +1,121 @@
+---
+title: "Key Concepts in LegFi KM Explained"
+sidebarTitle: "Key Concepts"
+description: "Understand the core building blocks of LegFi KM: workspaces, entries, topics, roles, and workflows — and how they work together."
+---
+
+LegFi KM is built around a small set of core concepts that work together to give your organization a structured, auditable, and searchable knowledge base. Understanding these building blocks — and the relationships between them — will help you design an effective knowledge structure from day one, whether you are managing regulatory filings, contract libraries, or internal compliance policies.
+
+<AccordionGroup>
+  <Accordion title="Workspace" icon="building">
+    A workspace is your organization's private, isolated environment inside LegFi KM. Every piece of content, every user account, every setting, and every audit record lives within a specific workspace — nothing crosses workspace boundaries automatically.
+
+    You can operate multiple workspaces within a single LegFi KM subscription. Common patterns include:
+
+    - **One workspace per department** — for example, a Legal workspace and a separate Finance workspace, each with its own topic hierarchy and team roster.
+    - **One workspace per region** — for multinational organizations that need to maintain distinct knowledge bases for EMEA, APAC, and the Americas.
+    - **One workspace per project** — for time-boxed engagements such as M&A due diligence or regulatory audits where you want a clean, self-contained record.
+
+    Workspace Admins control all settings, including branding, default language, timezone, SSO configuration, and which roles are available to team members.
+  </Accordion>
+
+  <Accordion title="Knowledge Entry" icon="file-lines">
+    A knowledge entry is the fundamental unit of content in LegFi KM. Think of it as a structured document — richer than a plain file, but purpose-built for the compliance, legal, and financial context in which your team operates.
+
+    Every entry contains the following fields:
+
+    - **Title** — a clear, searchable name that identifies the entry in lists and search results.
+    - **Body** — rich-text content authored directly in LegFi KM or imported from Word or PDF. Supports headings, tables, bullet lists, and inline links.
+    - **Status** — one of four lifecycle states: **Draft**, **Under Review**, **Published**, or **Archived** (see Review Workflow below).
+    - **Topic(s)** — one or more category labels that place the entry in your taxonomy (see Topics below).
+    - **Author** — the team member who created the entry, recorded automatically.
+    - **Version history** — a complete, numbered record of every saved state of the entry (see Version Control below).
+
+    Entries are the objects that get searched, reviewed, shared, and audited throughout the platform.
+  </Accordion>
+
+  <Accordion title="Topic" icon="tag">
+    Topics are the taxonomy labels you use to organize your knowledge entries. Every entry must be assigned to at least one topic, and topics can be nested to form a hierarchy up to five levels deep. This hierarchy is what makes search and browsing tractable as your knowledge base scales into hundreds or thousands of entries.
+
+    A well-designed topic hierarchy mirrors the way your organization already thinks about its knowledge domains. Some examples:
+
+    | Parent Topic | Child Topic | Grandchild Topic |
+    |---|---|---|
+    | Regulatory | SEC Filings | Form 10-K |
+    | Regulatory | SEC Filings | Form 8-K |
+    | Legal | Contract Templates | NDAs |
+    | Legal | Contract Templates | MSAs |
+    | Financial | Accounting Standards | IFRS |
+    | Financial | Accounting Standards | US GAAP |
+
+    Topics are created and managed by Admins under **Knowledge > Topics**. Editors and Reviewers can assign existing topics to entries, but cannot create or rename topics themselves.
+  </Accordion>
+
+  <Accordion title="Role" icon="shield-check">
+    Roles determine what each team member can see and do inside a workspace. LegFi KM ships with four built-in roles that cover the full range of knowledge management responsibilities in compliance and legal teams:
+
+    | Role | Permissions |
+    |---|---|
+    | **Viewer** | Read published entries. Cannot create, edit, or approve content. Suitable for stakeholders who need access to finalized knowledge without contributing to it. |
+    | **Editor** | Create and edit Draft entries, submit entries for review, and view entries at all status levels. Cannot approve or publish entries. |
+    | **Reviewer** | All Editor permissions, plus the ability to approve or reject entries submitted for review, request revisions, and publish approved entries. |
+    | **Admin** | Full access to all entries (including Archived), topic management, team roster, workspace settings, audit trail exports, and API key management. |
+
+    Admins assign roles when inviting a team member and can change any member's role at any time from **Settings > Team**. Role changes take effect immediately.
+  </Accordion>
+
+  <Accordion title="Review Workflow" icon="arrow-progress">
+    The review workflow is the governed process through which a Draft entry moves to Published status. It exists to enforce a separation of duties — the person who writes content should not be the only person who certifies it as authoritative — which is a common requirement in regulated industries.
+
+    The workflow follows these stages:
+
+    <Steps>
+      <Step title="Draft">
+        An Editor creates or edits an entry. The entry is only visible to Editors and Admins. The author can save as many times as needed; each save creates a new version.
+      </Step>
+      <Step title="Submit for Review">
+        When the author is satisfied, they click **Submit for Review**. The entry status changes to **Under Review** and all Reviewers in the workspace receive an email notification.
+      </Step>
+      <Step title="Reviewer Decision">
+        A Reviewer reads the entry and either **Approves** it or **Requests Changes**. If changes are requested, the Reviewer adds a comment explaining what needs to be revised, and the entry returns to Draft status for the author to address.
+      </Step>
+      <Step title="Published">
+        Once approved, the entry status changes to **Published**. It is now visible to all workspace members, including Viewers. Every subsequent edit by an Editor restarts the workflow from Draft.
+      </Step>
+    </Steps>
+
+    Entries can also be moved to **Archived** status by an Admin or Reviewer when content is superseded or no longer relevant. Archived entries remain searchable and their full version history is preserved, but they are clearly marked as inactive.
+  </Accordion>
+
+  <Accordion title="Audit Trail" icon="clock-rotate-left">
+    The audit trail is an immutable, timestamped log of every action taken on a knowledge entry throughout its lifetime. It is available on all LegFi KM plans and cannot be disabled, modified, or deleted — by any role, including Admins.
+
+    The audit trail records:
+
+    - **Creation** — who created the entry and when.
+    - **Edits** — every save, with the version number created and the author of the change.
+    - **Status changes** — every transition between Draft, Under Review, Published, and Archived, including who triggered the change and any reviewer comments.
+    - **Views** — every named user who opened the entry, with a timestamp. Anonymous or unauthenticated access is not permitted in LegFi KM, so every view is attributed.
+    - **Permission changes** — if an entry's visibility or topic assignment is modified.
+
+    You can view the audit trail for any entry by opening the entry and clicking the **Audit Trail** tab. Admins can also export a full workspace-level audit log in CSV or JSON format from **Settings > Audit Log** — a common requirement for regulatory examinations and internal audit reviews.
+  </Accordion>
+
+  <Accordion title="Version Control" icon="code-branch">
+    Every time an Editor saves a knowledge entry, LegFi KM creates a new numbered version and stores the complete content of that version permanently. Version numbering starts at 1 and increments with each save — there is no concept of a "major" versus "minor" save; every change is recorded.
+
+    Version control gives your team three key capabilities:
+
+    - **Full history** — open any entry and click the **Versions** tab to see a complete list of every version, including who saved it and when.
+    - **Side-by-side comparison** — select any two versions and click **Compare** to see a highlighted diff of what changed between them. Additions are shown in green, deletions in red. This is particularly useful during review cycles to verify that requested changes were actually made.
+    - **Restore** — click **Restore** on any historical version to make it the current working Draft. A restore is itself recorded as a new version in the history, so the audit trail is never broken.
+
+    <Warning>
+      Restoring a prior version does not delete the versions created after it. All versions remain accessible in the history. If you restore Version 3 when Version 7 is current, Version 8 will be the restored copy of Version 3, and Versions 4 through 7 remain visible in the history.
+    </Warning>
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  Topics and roles are configured by Admins. If you need a new topic added to the taxonomy, an existing topic renamed, or a change to your role in the workspace, contact your workspace Admin directly or use the in-platform **Help > Request Access Change** form.
+</Note>

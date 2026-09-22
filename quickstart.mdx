@@ -1,47 +1,72 @@
 ---
-title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+title: "Get Started with LegFi KM in Minutes"
+sidebarTitle: "Quick Start"
+description: "Learn how to create your account, set up your first knowledge entry, and invite your team to LegFi KM in five simple steps."
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
-
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
-
-## Prerequisites
-
-Before you begin, you must have:
-
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
-
-## Get started
+This quickstart walks you through everything you need to go from a blank slate to a functioning knowledge base in LegFi KM. By the end, you will have a verified account, a configured workspace, your first topic and knowledge entry, and at least one team member ready to collaborate — all in under fifteen minutes.
 
 <Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
+  <Step title="Create Your Account">
+    Navigate to [app.legfikm.com](https://app.legfikm.com) and click **Sign Up**. Enter your work email address and choose a strong password, then select the plan that fits your organization — Starter for small teams, Professional for growing compliance and legal departments, or Enterprise for organization-wide deployments with advanced controls.
 
-    ```bash
-    npm install your-package
-    ```
+    After submitting the registration form, LegFi KM sends a verification email to the address you provided. Open that email and click **Verify My Account** to activate your login. If the email does not arrive within a few minutes, check your spam folder or click **Resend Verification** on the sign-in page.
   </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
 
-    ```bash
-    your-cli init
-    ```
+  <Step title="Create Your Workspace">
+    The first time you sign in, LegFi KM prompts you to create your workspace. Give it a clear, recognizable name — typically your organization name, a specific department such as **Acme Legal**, or a regional unit like **EMEA Compliance**. The name appears in the top navigation bar and in all exported reports, so choose something your team will immediately recognize.
+
+    Next, set your workspace's **default timezone** to ensure that audit trail timestamps and review deadlines display correctly for your primary team. Then choose a **default language** for the interface and entry templates. You can adjust both settings later under **Settings > Workspace > General**.
   </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
 
-    ```bash
-    your-cli start
-    ```
+  <Step title="Define Your First Topic">
+    Topics are the taxonomy backbone of LegFi KM. Every knowledge entry belongs to at least one topic, so defining a sensible topic structure early makes search and navigation far more powerful as your knowledge base grows.
+
+    Go to **Knowledge > Topics** and click **New Topic**. Enter a descriptive name such as **Regulatory Compliance** or **Contract Templates**. Add a short description so other team members understand what belongs there. If this topic sits beneath a broader category — for example, **Regulatory Compliance** under a parent topic called **Legal** — select that parent from the dropdown to establish the hierarchy.
+
+    <Info>
+      You can nest topics up to five levels deep. Start broad and add child topics as your knowledge base matures rather than trying to define the full hierarchy upfront.
+    </Info>
+  </Step>
+
+  <Step title="Create Your First Knowledge Entry">
+    Navigate to **Knowledge > Entries** and click **New Entry**. Fill in the following fields:
+
+    - **Title** — a clear, searchable name for the entry, such as *SEC Regulation S-K Disclosure Requirements* or *Standard NDA Template — US Jurisdiction*.
+    - **Body** — use the rich-text editor to write or paste your content. You can apply headings, bullet lists, tables, inline code, and hyperlinks. The editor also supports pasting from Word or PDF with automatic formatting clean-up.
+    - **Topic** — assign the topic you created in the previous step. You may assign multiple topics if the entry spans more than one category.
+    - **Status** — leave this set to **Draft** for now. Draft entries are only visible to Editors and Admins until they are submitted for review.
+
+    Click **Save** when you are ready. LegFi KM automatically stores this as Version 1 and records the creation event in the entry's audit trail.
+  </Step>
+
+  <Step title="Invite a Team Member">
+    Open **Settings > Team** and click **Invite Member**. Enter your colleague's work email address, then select the role that matches their responsibilities:
+
+    - **Viewer** — read-only access to all published entries in the workspace.
+    - **Editor** — can create and edit draft entries and submit them for review.
+    - **Reviewer** — can approve or request changes on entries submitted for review, in addition to all Editor permissions.
+    - **Admin** — full access to entries, topics, team management, and all workspace settings.
+
+    Click **Send Invitation**. Your colleague receives an email with a link to accept the invitation and set up their password. They are added to the team roster immediately and can access the workspace as soon as they complete sign-up.
   </Step>
 </Steps>
 
 <Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
-
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
+  Once your first entry is saved as a Draft, try submitting it for review right away. Open the entry, click **Submit for Review**, and add an optional note to your Reviewer. This kicks off the built-in review workflow — your Reviewer will receive an email notification and can approve the entry or request changes directly from the platform. Getting familiar with this process early helps your team establish consistent publishing standards before the knowledge base scales.
 </Tip>
+
+<CardGroup cols={2}>
+  <Card title="Key Concepts" icon="book-open" href="/key-concepts">
+    Understand workspaces, entries, topics, roles, and workflows — and how they fit together in LegFi KM.
+  </Card>
+  <Card title="Knowledge Management" icon="file-pen" href="/knowledge/creating-entries">
+    Learn how to create, edit, version, and publish knowledge entries with the full feature set.
+  </Card>
+  <Card title="Collaboration" icon="users" href="/collaboration/teams-and-permissions">
+    Set up your team, assign roles, manage permissions, and configure review workflows.
+  </Card>
+  <Card title="API Reference" icon="code" href="/api/overview">
+    Integrate LegFi KM with your existing tools using the REST API.
+  </Card>
+</CardGroup>

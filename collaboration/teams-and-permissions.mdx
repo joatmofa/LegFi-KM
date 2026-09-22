@@ -1,0 +1,134 @@
+---
+title: "Teams, Roles, and Permissions in LegFi KM"
+sidebarTitle: "Teams & Permissions"
+description: "Configure role-based access control in LegFi KM to give every team member the right level of access to financial and legal knowledge."
+---
+
+LegFi KM uses role-based access control (RBAC) to ensure every team member can see and do exactly what their job requires — no more, no less. Whether you're onboarding a new analyst who only needs to read approved content or promoting a senior attorney to approve regulatory guidance, RBAC lets you enforce the principle of least privilege across your entire knowledge base without writing a single line of configuration.
+
+## Built-in Roles
+
+LegFi KM ships with four built-in roles that cover the most common organizational structures. Every user in your workspace is assigned exactly one role.
+
+| Role | Can Create Entries | Can Edit Entries | Can Approve | Can Manage Topics | Can Manage Users |
+|---|---|---|---|---|---|
+| **Viewer** | No | No | No | No | No |
+| **Editor** | Yes | Own entries only | No | No | No |
+| **Reviewer** | Yes | Yes (any entry) | Yes | No | No |
+| **Admin** | Yes | Yes (any entry) | Yes | Yes | Yes |
+
+**Viewer** is the right choice for stakeholders who need read access to published knowledge — for example, department heads who consume compliance summaries but don't author or approve them.
+
+**Editor** is designed for knowledge authors. Editors can create new entries and edit their own drafts, but they cannot modify another user's work or approve content for publication.
+
+**Reviewer** suits legal or compliance professionals who are responsible for validating content. Reviewers can edit any entry and move entries through the approval workflow.
+
+**Admin** has full control over the workspace, including user management and topic taxonomy. Assign this role only to trusted platform administrators.
+
+<Note>
+  Every workspace must have at least one Admin at all times. If you are the only Admin, LegFi KM will prevent you from demoting or removing yourself until you assign the Admin role to another user.
+</Note>
+
+## Inviting Team Members
+
+Admins can invite new users directly from the Team settings page. Invited users receive an email prompting them to create their account and join the workspace.
+
+<Steps>
+  <Step title="Open Team Settings">
+    Navigate to **Settings** in the left sidebar, then select **Team**.
+  </Step>
+  <Step title="Open the Invite Dialog">
+    Click **Invite Member** in the top-right corner of the Team page.
+  </Step>
+  <Step title="Enter the User's Email Address">
+    Type the invitee's work email address into the **Email** field. You can invite multiple people at once by entering additional addresses separated by commas.
+  </Step>
+  <Step title="Select a Role">
+    Use the **Role** dropdown to assign the appropriate built-in role. See the table above if you are unsure which role fits the user's responsibilities.
+  </Step>
+  <Step title="Send the Invitation">
+    Click **Send Invite**. LegFi KM emails the invitee a secure link valid for 72 hours. Once they accept, their account appears in your Team list with the role you selected.
+  </Step>
+</Steps>
+
+<Tip>
+  If an invitee doesn't receive their email within a few minutes, ask them to check their spam folder. You can also resend the invitation from **Settings → Team** by clicking the **⋯** menu next to their pending entry and selecting **Resend Invite**.
+</Tip>
+
+## Changing a User's Role
+
+Only Admins can change another user's role. Role changes take effect immediately — the user's permissions update the next time they load a page in the app.
+
+<Steps>
+  <Step title="Open Team Settings">
+    Go to **Settings → Team**.
+  </Step>
+  <Step title="Select the User">
+    Click the user's name or avatar to open their profile panel.
+  </Step>
+  <Step title="Change the Role">
+    Click **Change Role**, select the new role from the dropdown, and confirm your choice. The user receives an in-app notification that their role has been updated.
+  </Step>
+</Steps>
+
+<Warning>
+  Downgrading a Reviewer or Admin to Editor or Viewer immediately removes their ability to approve entries or manage the workspace. Any entries currently in their review queue will remain in an **Under Review** state but will need to be reassigned to another Reviewer.
+</Warning>
+
+## Teams (Groups)
+
+<Info>
+  Teams (Groups) are available on the **Professional** and **Enterprise** plans. On the Starter plan, permissions are managed at the individual user level only.
+</Info>
+
+Teams let you group users by function — for example, **Legal**, **Compliance**, and **Finance** — and then assign those groups to topics for scoped, department-level access control. This is especially useful in large organizations where dozens of users share the same access requirements.
+
+**Creating a team:**
+
+<Steps>
+  <Step title="Open Teams Settings">
+    Navigate to **Settings → Teams**, then click **New Team**.
+  </Step>
+  <Step title="Name the Team">
+    Enter a descriptive name such as `Compliance - EMEA` or `Legal - Transactions`. Names are visible to all workspace members.
+  </Step>
+  <Step title="Add Members">
+    Search for users by name or email and add them to the team. Users can belong to multiple teams simultaneously.
+  </Step>
+  <Step title="Assign Topics">
+    From the team's detail page, click **Assign Topics** and select the topics this team should have access to. Members of the team inherit access to all entries within those topics.
+  </Step>
+</Steps>
+
+<Tip>
+  Use teams to future-proof your access model. When a new employee joins the Compliance team, add them to the team once — they automatically inherit all the topic assignments already configured for that group.
+</Tip>
+
+## Entry-Level Permissions
+
+<Info>
+  Entry-level permissions are available on the **Professional** and **Enterprise** plans.
+</Info>
+
+For particularly sensitive entries — such as privileged legal opinions or confidential deal documentation — you can override workspace-wide role permissions at the individual entry level. Entry-level permissions restrict visibility so that only explicitly listed users or teams can open that entry, even if their workspace role would otherwise grant them access.
+
+**Restricting an entry:**
+
+<Steps>
+  <Step title="Open Entry Settings">
+    Navigate to the entry you want to restrict, click the **⋯** menu in the top-right corner, and select **Settings**.
+  </Step>
+  <Step title="Open the Access Panel">
+    Select the **Access** tab within Entry Settings.
+  </Step>
+  <Step title="Enable Restricted Access">
+    Toggle **Restrict Access** to on. The entry immediately becomes invisible to everyone except its author, assigned reviewers, and workspace Admins.
+  </Step>
+  <Step title="Add Permitted Users or Teams">
+    Click **Add Users or Teams** and search for the individuals or groups who should retain access. Their existing workspace role determines what actions they can take on the entry (view, edit, approve).
+  </Step>
+</Steps>
+
+<Warning>
+  Enabling restricted access on a published entry removes it from search results and topic listings for all users who are not on the permitted list. Confirm your access list carefully before saving to avoid inadvertently hiding critical compliance content from the people who need it.
+</Warning>

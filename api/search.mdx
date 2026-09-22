@@ -1,0 +1,168 @@
+---
+title: "Full-Text Search API for Knowledge Entries"
+sidebarTitle: "Search"
+description: "Search your LegFi KM knowledge base via the REST API with full-text queries, topic filters, and pagination for integration and automation."
+---
+
+The Search API provides full-text search over your entire LegFi KM knowledge base. Use it to build internal search tools, power compliance dashboards, or integrate LegFi KM retrieval directly into other applications — such as document review platforms, audit workflows, or employee intranet portals. The Search API supports plain keyword queries as well as structured operators that let you scope searches by topic, author, status, and date range, all within a single `q` parameter. The base URL is `https://api.legfikm.com/v1` and all requests require a Bearer token in the `Authorization` header.
+
+---
+
+## GET /search
+
+Execute a full-text search across all knowledge entries your token has permission to read. Results are ranked by relevance score and can be further filtered by topic or publication status using dedicated query parameters.
+
+### Query Parameters
+
+<ParamField query="q" type="string" required>
+  The search query string. Supports plain keywords as well as structured operators: `topic:`, `author:`, `status:`, `before:`, and `after:`. Operators can be combined with free-text terms in a single query string (e.g., `GDPR retention topic:gdpr status:published`). See [Search Operators](#search-operators-in-api-queries) for the full reference.
+</ParamField>
+
+<ParamField query="topic_id" type="string">
+  Filter results to entries assigned to the specified topic UUID. This filter stacks with any `topic:` operator used in the `q` parameter.
+</ParamField>
+
+<ParamField query="status" type="string">
+  Filter results by entry status. Accepted values: `draft`, `published`, `archived`. Omit to search across all statuses accessible to your token's role.
+</ParamField>
+
+<ParamField query="page" type="integer" default="1">
+  The page number of results to retrieve.
+</ParamField>
+
+<ParamField query="per_page" type="integer" default="20">
+  Number of results to return per page. Maximum value is `50`.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X GET 'https://api.legfikm.com/v1/search?q=GDPR+data+retention&status=published&per_page=10' \
+  -H "Authorization: Bearer YOUR_API_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "results": [
+    {
+      "id": "ent_01hx4k2p9qr3st5uvw6yz7ab8c",
+      "title": "GDPR Data Retention Policy",
+      "snippet": "Personal data must not be retained beyond the period necessary for the purpose for which it was collected. Controllers must implement documented **retention schedules**...",
+      "score": 0.97,
+      "topic": {
+        "id": "top_gdpr_01",
+        "name": "GDPR",
+        "path": "Regulatory Compliance / GDPR"
+      },
+      "status": "published",
+      "url": "https://app.legfikm.com/entries/ent_01hx4k2p9qr3st5uvw6yz7ab8c"
+    },
+    {
+      "id": "ent_07kp2r8s5tu9vw1xyz3ab4cd5e",
+      "title": "Article 5 GDPR — Principles Relating to Processing",
+      "snippet": "Data minimisation and storage limitation are core principles under Article 5. Organisations must ensure that personal data is kept for no longer than necessary...",
+      "score": 0.88,
+      "topic": {
+        "id": "top_gdpr_01",
+        "name": "GDPR",
+        "path": "Regulatory Compliance / GDPR"
+      },
+      "status": "published",
+      "url": "https://app.legfikm.com/entries/ent_07kp2r8s5tu9vw1xyz3ab4cd5e"
+    },
+    {
+      "id": "ent_09mr4t6u7vw8xy2zab5cd6ef7g",
+      "title": "Data Processor Agreement Checklist",
+      "snippet": "When engaging processors, controllers must verify that contractual clauses address **data retention**, deletion obligations, and audit rights under GDPR Article 28...",
+      "score": 0.74,
+      "topic": {
+        "id": "top_gdpr_01",
+        "name": "GDPR",
+        "path": "Regulatory Compliance / GDPR"
+      },
+      "status": "published",
+      "url": "https://app.legfikm.com/entries/ent_09mr4t6u7vw8xy2zab5cd6ef7g"
+    }
+  ],
+  "total": 11,
+  "page": 1,
+  "per_page": 10
+}
+```
+
+### Response Fields
+
+<ResponseField name="results" type="array of result objects">
+  Ordered array of search result objects, ranked by descending relevance score.
+
+  <Expandable title="Result object fields">
+    <ResponseField name="id" type="string">
+      Unique identifier of the matching knowledge entry.
+    </ResponseField>
+
+    <ResponseField name="title" type="string">
+      Display title of the matching entry.
+    </ResponseField>
+
+    <ResponseField name="snippet" type="string">
+      A short excerpt from the entry body showing the most relevant passage. Query terms are highlighted with Markdown bold syntax (`**term**`).
+    </ResponseField>
+
+    <ResponseField name="score" type="number">
+      A relevance score between `0.0` and `1.0`. Higher scores indicate stronger matches to the query.
+    </ResponseField>
+
+    <ResponseField name="topic" type="object">
+      The primary topic associated with the entry, containing `id`, `name`, and `path` fields.
+    </ResponseField>
+
+    <ResponseField name="status" type="string">
+      Publication status of the matching entry: `draft`, `published`, or `archived`.
+    </ResponseField>
+
+    <ResponseField name="url" type="string">
+      Direct URL to the entry in the LegFi KM web application.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="total" type="integer">
+  Total number of entries matching the query across all pages.
+</ResponseField>
+
+<ResponseField name="page" type="integer">
+  The current page number returned.
+</ResponseField>
+
+<ResponseField name="per_page" type="integer">
+  The number of results per page used for this response.
+</ResponseField>
+
+---
+
+## Search Operators in API Queries
+
+LegFi KM's search engine supports structured operators that you can embed directly in the `q` parameter alongside free-text keywords. Combine multiple operators and terms in a single query string to express precise searches without needing extra filter parameters.
+
+| Operator | Format | Description |
+|---|---|---|
+| `topic:` | `topic:gdpr` | Restrict results to entries assigned to the topic with the given slug. Use the topic's URL slug (visible in the LegFi KM UI) rather than its UUID. |
+| `author:` | `author:sarah.chen@example.com` | Return only entries authored by the user with the specified email address. |
+| `status:` | `status:published` | Filter by entry status: `draft`, `published`, or `archived`. Equivalent to the standalone `status` query parameter. |
+| `before:` | `before:2024-06-01` | Return entries last updated before the given date (inclusive), in `YYYY-MM-DD` format. |
+| `after:` | `after:2023-01-01` | Return entries last updated after the given date (inclusive), in `YYYY-MM-DD` format. |
+
+### Example: Combined Operator Query
+
+To find all published AML entries updated in 2024 and authored by a specific compliance officer, construct the `q` value as follows:
+
+```bash
+curl -X GET 'https://api.legfikm.com/v1/search?q=suspicious+activity+topic:aml+status:published+author:james.okafor@example.com+after:2024-01-01&per_page=20' \
+  -H "Authorization: Bearer YOUR_API_TOKEN"
+```
+
+<Tip>
+  Use the `topic:` operator to scope automated compliance checks to specific regulatory areas. For example, a scheduled script that checks for recently updated GDPR entries can run `q=topic:gdpr after:2024-11-01 status:published` to surface only the content relevant to a particular review cycle — without retrieving unrelated entries from other topic areas.
+</Tip>

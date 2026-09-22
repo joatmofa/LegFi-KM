@@ -1,0 +1,338 @@
+---
+title: "REST API Endpoints for Knowledge Entries"
+sidebarTitle: "Entries"
+description: "Create, read, update, and delete knowledge entries via the LegFi KM REST API. Includes request/response schemas and curl examples."
+---
+
+The Knowledge Entries API is the core of LegFi KM's REST interface. Use it to programmatically create, retrieve, update, and delete entries in your knowledge base — whether you're building automated ingestion pipelines, synchronizing content from external systems, or integrating LegFi KM into compliance workflows. All requests must include a valid Bearer token in the `Authorization` header. The base URL for every endpoint on this page is `https://api.legfikm.com/v1`.
+
+---
+
+## GET /entries
+
+Retrieve a paginated list of knowledge entries. Apply filters to narrow results by topic or publication status.
+
+### Query Parameters
+
+<ParamField query="topic_id" type="string">
+  Filter entries assigned to a specific topic. Pass the topic's UUID to return only entries tagged with that topic.
+</ParamField>
+
+<ParamField query="status" type="string">
+  Filter by entry status. Accepted values: `draft`, `published`, `archived`. Omit this parameter to return entries across all statuses.
+</ParamField>
+
+<ParamField query="page" type="integer" default="1">
+  The page number to retrieve. Used together with `per_page` for cursor-free pagination.
+</ParamField>
+
+<ParamField query="per_page" type="integer" default="20">
+  Number of entries to return per page. Maximum value is `100`.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X GET 'https://api.legfikm.com/v1/entries?status=published&per_page=5&page=1' \
+  -H "Authorization: Bearer YOUR_API_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "data": [
+    {
+      "id": "ent_01hx4k2p9qr3st5uvw6yz7ab8c",
+      "title": "GDPR Data Retention Policy",
+      "body": "## Overview\n\nPersonal data must not be retained beyond the period necessary...",
+      "status": "published",
+      "topic_ids": ["top_gdpr_01", "top_compliance_03"],
+      "author_id": "usr_9fj2kl3mn4op5qr",
+      "version": 3,
+      "created_at": "2024-03-12T09:15:00Z",
+      "updated_at": "2024-11-07T14:32:10Z",
+      "expires_at": "2025-03-12T00:00:00Z"
+    },
+    {
+      "id": "ent_02hy5l3q0rs4tu6vwx7za8bc9d",
+      "title": "AML Transaction Monitoring Procedures",
+      "body": "## Scope\n\nThis entry covers monitoring thresholds for suspicious activity...",
+      "status": "published",
+      "topic_ids": ["top_aml_07"],
+      "author_id": "usr_4ab7cd8ef9gh0ij",
+      "version": 1,
+      "created_at": "2024-06-01T11:00:00Z",
+      "updated_at": "2024-06-01T11:00:00Z",
+      "expires_at": null
+    }
+  ],
+  "meta": {
+    "total": 84,
+    "page": 1,
+    "per_page": 5
+  }
+}
+```
+
+---
+
+## POST /entries
+
+Create a new knowledge entry. New entries default to `draft` status unless you explicitly set `status` to `published`.
+
+### Body Parameters
+
+<ParamField body="title" type="string" required>
+  The display title of the entry. Must be between 3 and 255 characters.
+</ParamField>
+
+<ParamField body="body" type="string">
+  The full content of the entry in Markdown format. Supports headings, lists, tables, and inline code.
+</ParamField>
+
+<ParamField body="topic_ids" type="array of strings">
+  An array of topic UUIDs to associate with this entry. You can assign an entry to multiple topics.
+</ParamField>
+
+<ParamField body="status" type="string" default="draft">
+  Initial publication status. Accepted values: `draft`, `published`. Entries set to `published` at creation still appear in the audit trail as author-published.
+</ParamField>
+
+<ParamField body="expires_at" type="string">
+  Optional expiration date in ISO 8601 format (e.g., `2025-12-31T00:00:00Z`). After this date, the entry is automatically flagged for review and excluded from search results unless explicitly queried.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X POST 'https://api.legfikm.com/v1/entries' \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "MiFID II Suitability Assessment Requirements",
+    "body": "## Purpose\n\nFirms must assess the suitability of investment products for clients...",
+    "topic_ids": ["top_mifid_02", "top_compliance_03"],
+    "status": "draft",
+    "expires_at": "2026-01-01T00:00:00Z"
+  }'
+```
+
+### Example Response
+
+```json
+{
+  "data": {
+    "id": "ent_03iz6m4r1st5uv7wxy8ab9cd0e",
+    "title": "MiFID II Suitability Assessment Requirements",
+    "body": "## Purpose\n\nFirms must assess the suitability of investment products for clients...",
+    "status": "draft",
+    "topic_ids": ["top_mifid_02", "top_compliance_03"],
+    "author_id": "usr_9fj2kl3mn4op5qr",
+    "version": 1,
+    "created_at": "2024-12-10T08:45:00Z",
+    "updated_at": "2024-12-10T08:45:00Z",
+    "expires_at": "2026-01-01T00:00:00Z"
+  }
+}
+```
+
+---
+
+## GET /entries/{id}
+
+Retrieve a single knowledge entry by its unique ID. The response includes the full entry object along with a summarized version history.
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the entry (e.g., `ent_01hx4k2p9qr3st5uvw6yz7ab8c`).
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X GET 'https://api.legfikm.com/v1/entries/ent_01hx4k2p9qr3st5uvw6yz7ab8c' \
+  -H "Authorization: Bearer YOUR_API_TOKEN"
+```
+
+### Example Response
+
+```json
+{
+  "data": {
+    "id": "ent_01hx4k2p9qr3st5uvw6yz7ab8c",
+    "title": "GDPR Data Retention Policy",
+    "body": "## Overview\n\nPersonal data must not be retained beyond the period necessary...",
+    "status": "published",
+    "topic_ids": ["top_gdpr_01", "top_compliance_03"],
+    "author_id": "usr_9fj2kl3mn4op5qr",
+    "version": 3,
+    "created_at": "2024-03-12T09:15:00Z",
+    "updated_at": "2024-11-07T14:32:10Z",
+    "expires_at": "2025-03-12T00:00:00Z",
+    "version_history": [
+      {
+        "version": 3,
+        "updated_by": "usr_9fj2kl3mn4op5qr",
+        "updated_at": "2024-11-07T14:32:10Z",
+        "change_summary": "Updated retention periods to reflect revised EU guidance."
+      },
+      {
+        "version": 2,
+        "updated_by": "usr_4ab7cd8ef9gh0ij",
+        "updated_at": "2024-07-19T10:05:45Z",
+        "change_summary": "Added section on third-party processor obligations."
+      },
+      {
+        "version": 1,
+        "updated_by": "usr_9fj2kl3mn4op5qr",
+        "updated_at": "2024-03-12T09:15:00Z",
+        "change_summary": "Initial creation."
+      }
+    ]
+  }
+}
+```
+
+---
+
+## PUT /entries/{id}
+
+Update an existing knowledge entry. All body fields are optional — include only the fields you want to change. Each successful update increments the entry's `version` counter and records the change in the audit trail.
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the entry to update.
+</ParamField>
+
+### Body Parameters
+
+<ParamField body="title" type="string">
+  Updated display title for the entry.
+</ParamField>
+
+<ParamField body="body" type="string">
+  Updated Markdown content for the entry body.
+</ParamField>
+
+<ParamField body="topic_ids" type="array of strings">
+  Replacement array of topic UUIDs. This fully replaces the existing topic assignments — to preserve existing topics, include them in the array alongside any new additions.
+</ParamField>
+
+<ParamField body="status" type="string">
+  Updated publication status. Accepted values: `draft`, `published`, `archived`.
+</ParamField>
+
+<ParamField body="expires_at" type="string">
+  Updated expiration date in ISO 8601 format. Pass `null` to remove an existing expiration date.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X PUT 'https://api.legfikm.com/v1/entries/ent_01hx4k2p9qr3st5uvw6yz7ab8c' \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "status": "archived",
+    "expires_at": null
+  }'
+```
+
+### Example Response
+
+```json
+{
+  "data": {
+    "id": "ent_01hx4k2p9qr3st5uvw6yz7ab8c",
+    "title": "GDPR Data Retention Policy",
+    "body": "## Overview\n\nPersonal data must not be retained beyond the period necessary...",
+    "status": "archived",
+    "topic_ids": ["top_gdpr_01", "top_compliance_03"],
+    "author_id": "usr_9fj2kl3mn4op5qr",
+    "version": 4,
+    "created_at": "2024-03-12T09:15:00Z",
+    "updated_at": "2024-12-10T09:00:00Z",
+    "expires_at": null
+  }
+}
+```
+
+---
+
+## DELETE /entries/{id}
+
+Permanently delete a knowledge entry. This action removes the entry and all associated version history from the platform.
+
+<Warning>
+  Deletion is **permanent and irreversible**. Once deleted, the entry's content and full version history cannot be recovered. This endpoint is restricted to users with the **Admin** role. If your goal is to retire an entry while preserving its record, set its `status` to `archived` using `PUT /entries/{id}` instead.
+</Warning>
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the entry to delete.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X DELETE 'https://api.legfikm.com/v1/entries/ent_01hx4k2p9qr3st5uvw6yz7ab8c' \
+  -H "Authorization: Bearer YOUR_API_TOKEN"
+```
+
+### Example Response
+
+A successful deletion returns HTTP `204 No Content` with an empty response body.
+
+```json
+
+```
+
+---
+
+## Entry Object Schema
+
+The following fields appear on entry objects returned across all `/entries` endpoints.
+
+<ResponseField name="id" type="string">
+  Unique identifier for the entry, prefixed with `ent_`.
+</ResponseField>
+
+<ResponseField name="title" type="string">
+  The display title of the entry, between 3 and 255 characters.
+</ResponseField>
+
+<ResponseField name="body" type="string">
+  Full entry content in Markdown format.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Current publication status. One of `draft`, `published`, or `archived`.
+</ResponseField>
+
+<ResponseField name="topic_ids" type="array of strings">
+  List of topic UUIDs this entry is assigned to. An entry may belong to multiple topics.
+</ResponseField>
+
+<ResponseField name="author_id" type="string">
+  The UUID of the user who originally created the entry.
+</ResponseField>
+
+<ResponseField name="version" type="integer">
+  Monotonically increasing version counter. Increments by 1 on every successful update.
+</ResponseField>
+
+<ResponseField name="created_at" type="string">
+  ISO 8601 timestamp indicating when the entry was first created.
+</ResponseField>
+
+<ResponseField name="updated_at" type="string">
+  ISO 8601 timestamp indicating when the entry was last modified.
+</ResponseField>
+
+<ResponseField name="expires_at" type="string | null">
+  ISO 8601 timestamp after which the entry is flagged for review. `null` if no expiration is set.
+</ResponseField>

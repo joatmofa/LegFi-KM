@@ -1,0 +1,111 @@
+---
+title: "Set Up Your LegFi KM Organization Account"
+sidebarTitle: "Account Setup"
+description: "Configure your LegFi KM workspace: set your organization name, logo, timezone, language, and plan to get your team productive."
+---
+
+After signing up, your first task is to configure your organization workspace so it reflects your company and is ready for your team. A well-configured workspace ensures that every member who joins sees consistent branding, correct regional settings, and access to the right plan features from day one. Walk through each section below before you start inviting colleagues.
+
+<Tip>
+  Complete your organization profile, verify your domain, and confirm your billing plan before inviting the broader team. This ensures every new member joins a fully configured workspace and immediately has the correct settings and access level.
+</Tip>
+
+## Organization Profile
+
+Your organization profile controls the name, logo, and regional preferences that appear throughout the LegFi KM interface for every member of your workspace.
+
+Navigate to **Settings → Organization → Profile** to access these fields.
+
+<Steps>
+  <Step title="Enter Your Organization Name">
+    Type your company's legal or trading name in the **Organization Name** field. This name appears in the top navigation bar, in email notifications, and on exported documents. Keep it consistent with how your company name appears in external communications.
+  </Step>
+  <Step title="Upload Your Logo">
+    Click **Upload Logo** and select a PNG or SVG file. The file must be no larger than 2 MB. LegFi KM displays your logo in the sidebar and on login screens. For the sharpest result at all screen sizes, use an SVG or a PNG with a minimum width of 200 px on a transparent background.
+  </Step>
+  <Step title="Set the Default Timezone">
+    Select your organization's primary timezone from the **Default Timezone** dropdown. This timezone is used for timestamps on entries, audit log events, review deadlines, and scheduled notifications. Individual users can override this with their own timezone in their personal settings.
+  </Step>
+  <Step title="Choose a Default Language">
+    Select the language for the LegFi KM interface from the **Default Language** dropdown. This applies to UI labels, system-generated emails, and notification text. Currently supported languages include English, French, German, Spanish, and Japanese.
+  </Step>
+  <Step title="Configure Date Format">
+    Choose your preferred **Date Format** — for example, `MM/DD/YYYY` (US), `DD/MM/YYYY` (international), or `YYYY-MM-DD` (ISO 8601). The selected format is applied consistently across entry timestamps, audit logs, and exported reports.
+  </Step>
+  <Step title="Save Your Changes">
+    Click **Save Profile** at the bottom of the page. Changes take effect immediately for all workspace members.
+  </Step>
+</Steps>
+
+## Choosing a Plan
+
+LegFi KM offers three plan tiers designed to grow with your organization. Choose the plan that matches your team size, workflow complexity, and compliance requirements.
+
+<CardGroup cols={3}>
+  <Card title="Free" icon="seedling">
+    Get started at no cost with up to **5 users**, **100 knowledge entries**, and **30 days of version history**. The Free plan is ideal for small teams evaluating LegFi KM or managing a limited, well-defined knowledge base. Core search, taxonomy, and access control features are fully available.
+  </Card>
+  <Card title="Professional" icon="briefcase">
+    Scale without limits with **unlimited users**, **unlimited entries**, and **unlimited version history**. Professional adds **custom review and approval workflows** and **Teams** — logical groups that let you assign topic ownership and manage notifications by department. This is the right choice for growing legal and compliance functions.
+  </Card>
+  <Card title="Enterprise" icon="building-columns">
+    Built for organizations with the strictest security and compliance requirements. Enterprise includes everything in Professional, plus **SSO** (SAML 2.0 and OIDC), **custom data retention policies**, **dedicated customer support**, and a contractual **SLA**. Data residency selection (US, EU, APAC) and compliance documentation (SOC 2 Type II, ISO 27001) are also available at this tier.
+  </Card>
+</CardGroup>
+
+To upgrade your plan, go to **Settings → Billing → Change Plan** and select the tier that fits your needs. Upgrades take effect immediately; you are billed on a prorated basis for the remainder of your current billing period.
+
+<Info>
+  If you are evaluating the Enterprise plan for a team of 50 or more users, contact **sales@legfikm.com** to arrange a guided demo and discuss volume pricing or multi-year agreements.
+</Info>
+
+## Billing and Invoices
+
+Manage your subscription, update your payment method, and access your invoice history from **Settings → Billing**.
+
+LegFi KM supports both **monthly** and **annual** billing cycles. Annual billing is available at a discounted rate compared to the equivalent monthly cost — the exact discount is displayed on the billing page when you select the annual option.
+
+<Tabs>
+  <Tab title="Managing Your Subscription">
+    From **Settings → Billing → Subscription**, you can:
+
+    - View your current plan, billing cycle, and next renewal date.
+    - Upgrade or downgrade your plan at any time. Downgrades take effect at the end of the current billing period.
+    - Switch between monthly and annual billing. Switching to annual takes effect immediately; switching to monthly takes effect at renewal.
+    - Cancel your subscription. Your workspace remains active until the end of the paid period, then enters a 90-day read-only grace period before deletion.
+  </Tab>
+  <Tab title="Updating Payment Details">
+    Go to **Settings → Billing → Payment Method** to add or replace a credit or debit card. LegFi KM accepts Visa, Mastercard, and American Express. For Enterprise customers, invoice-based payment (ACH or wire transfer) is available — contact your account manager to enable it.
+
+    LegFi KM uses Stripe to process payments. Your card details are tokenized by Stripe and are never stored on LegFi KM servers.
+  </Tab>
+  <Tab title="Downloading Invoices">
+    Every invoice is available under **Settings → Billing → Invoice History**. Click **Download PDF** next to any invoice to save a copy for your records. Invoices are also automatically emailed to the billing contact address on file after each successful payment. To update the billing contact email, click **Edit Billing Details** at the top of the Billing page.
+  </Tab>
+</Tabs>
+
+## Domain Verification
+
+Domain verification is available on the **Professional** and **Enterprise** plans. When you verify your company domain, any user who signs up for LegFi KM with a matching email address is automatically added to your workspace rather than creating a separate standalone account. This simplifies onboarding and keeps your user base consolidated.
+
+<Steps>
+  <Step title="Open Domain Settings">
+    Navigate to **Settings → Organization → Domains** and click **Add Domain**.
+  </Step>
+  <Step title="Enter Your Domain">
+    Type your domain name — for example, `acmecorp.com` — and click **Continue**. Do not include `http://` or `www`.
+  </Step>
+  <Step title="Add the DNS TXT Record">
+    LegFi KM generates a unique TXT record value. Log in to your DNS provider (such as Cloudflare, Route 53, or GoDaddy) and add a TXT record to your domain with the name `_legfikm-verify` and the value provided. DNS propagation typically takes between 5 minutes and 48 hours depending on your provider and TTL settings.
+  </Step>
+  <Step title="Verify the Domain">
+    Return to **Settings → Organization → Domains** and click **Verify** next to the pending domain. LegFi KM performs an immediate DNS lookup. Once the TXT record is detected, the domain status changes to **Verified**.
+  </Step>
+  <Step title="Configure Auto-Join Behavior">
+    After verification, choose whether matching users are added to the workspace automatically on first login, or whether they are placed in a pending state that requires Admin approval. Select your preferred behavior from the **Auto-Join Policy** dropdown and click **Save**.
+  </Step>
+</Steps>
+
+<Warning>
+  Only verify domains that your organization owns and controls. Verifying a public email domain such as `gmail.com` or `outlook.com` would allow any user with that email provider to join your workspace automatically.
+</Warning>
