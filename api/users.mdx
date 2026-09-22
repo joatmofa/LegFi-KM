@@ -1,7 +1,7 @@
 ---
-title: "REST API Endpoints for User Management"
+title: "LegFi KM REST API Reference: User and Role Management"
 sidebarTitle: "Users"
-description: "List and manage workspace users via the LegFi KM REST API. Admin-only endpoints for user provisioning and role management."
+description: "List and manage workspace users via the LegFi KM REST API. Admin-only endpoints for user provisioning, role updates, and access management."
 ---
 
 The Users API lets Admins list workspace members and manage their roles programmatically — useful for syncing with your corporate directory, automating onboarding and offboarding, or auditing access as part of a compliance review. Most endpoints on this page require an Admin token. The one exception is `GET /users/me`, which any authenticated user can call to verify their own identity and role. The base URL for all endpoints is `https://api.legfikm.com/v1`.

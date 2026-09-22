@@ -1,7 +1,7 @@
 ---
-title: "REST API Endpoints for Topics"
+title: "Topics API Reference — Manage Your Knowledge Taxonomy"
 sidebarTitle: "Topics"
-description: "List, create, and manage topics (your knowledge taxonomy) via the LegFi KM REST API with request and response examples."
+description: "List, create, update, and delete topics that organize your LegFi KM knowledge base. Includes hierarchy support, request schemas, and curl examples."
 ---
 
 Topics form the taxonomy that organizes your knowledge base. Every entry in LegFi KM can be assigned to one or more topics, and topics themselves can be nested to reflect your organization's hierarchy — for example, a top-level "Regulatory Compliance" topic might contain children like "GDPR," "AML," and "MiFID II." The Topics API lets you read this taxonomy programmatically and, for Admins, manage it as your compliance landscape evolves. All requests require a valid Bearer token in the `Authorization` header, directed at `https://api.legfikm.com/v1`.
@@ -230,10 +230,6 @@ curl -X DELETE 'https://api.legfikm.com/v1/topics/top_dora_11' \
 
 A successful deletion returns HTTP `204 No Content` with an empty response body.
 
-```json
-
-```
-
 ### Conflict Response
 
 If the topic has entries assigned, the API returns HTTP `409 Conflict`.
@@ -241,7 +237,7 @@ If the topic has entries assigned, the API returns HTTP `409 Conflict`.
 ```json
 {
   "error": {
-    "code": "TOPIC_HAS_ENTRIES",
+    "code": "topic_has_entries",
     "message": "Cannot delete topic 'top_dora_11' because it has 3 entries assigned. Reassign or remove entries before deleting this topic.",
     "entry_count": 3
   }
